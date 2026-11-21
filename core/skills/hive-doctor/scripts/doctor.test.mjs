@@ -30,10 +30,12 @@ function healthyHome() {
     w(path.join(nb, 'core', 'skills', s, 'SKILL.md'), `---\nname: ${s}\n---\n`);
     w(path.join(claude, 'skills', s, 'SKILL.md'), `---\r\nname: ${s}\r\n---\r\n`); // CRLF copy counts as the same
   }
-  w(path.join(hive, 'start.ps1'), '# start');
+  w(path.join(hive, 'start.mjs'), '// start');
   w(path.join(hive, 'gates', 'gates.mjs'), fs.readFileSync(GATES)); // the real gates: the doctor asks them where they look
   w(path.join(hive, 'privacy-guard.ps1'), '# guard');
-  const start = (p) => ({ hooks: [{ type: 'command', command: `powershell -NoProfile -ExecutionPolicy Bypass -File "$HOME\\.claude\\hive\\start.ps1" -Part ${p}`, shell: 'powershell' }] });
+  // The start step as the installer writes it on every system (core/start/settings-snippet.node.json): node runs
+  // start.mjs, in three parts. (The older PowerShell entry is the Windows shape; it has its own test below.)
+  const start = (p) => ({ hooks: [{ type: 'command', command: process.execPath, args: [path.join(hive, 'start.mjs').replace(/\\/g, '/'), '-Part', p], timeout: 30 }] });
   const gate = (m) => ({ hooks: [{ type: 'command', command: process.execPath, args: [path.join(hive, 'gates', 'gates.mjs').replace(/\\/g, '/'), m] }] });
   const settings = {
     theme: 'mine',
@@ -76,13 +78,38 @@ test('planted fault 1b: one start part missing', () => {
   assert.match(run(h).lines.find((l) => l.id === 'hook-missing').text, /'flight'/);
 });
 
-test('the start as one entry (after the gates were removed) counts as connected', () => {
+test('the start as one entry (no part named: the whole start) counts as connected', () => {
   const h = healthyHome();
+  h.settings.hooks.SessionStart = [{ hooks: [{ type: 'command', command: process.execPath, args: [path.join(h.hive, 'start.mjs').replace(/\\/g, '/')] }] }];
+  w(path.join(h.claude, 'settings.json'), JSON.stringify(h.settings));
+  const r = run(h);
+  assert.deepEqual(fixes(r), []);
+  assert.ok(r.lines.some((l) => l.id === 'hook:start'));
+});
+
+// On Windows, taking the gates out puts the start back as ONE PowerShell entry (core/install/install.mjs, removeGates).
+// That entry names "$HOME\.claude\hive\start.ps1" with Windows separators and runs only through PowerShell, so it is
+// a Windows shape: on a Mac or Linux it is skipped with this reason (there, removing the gates keeps the node entries).
+test('Windows: the start as one PowerShell entry (after the gates were removed) counts as connected', { skip: process.platform !== 'win32' && 'the one PowerShell start entry is the Windows shape (a $HOME\\ path and powershell); this computer is not Windows' }, () => {
+  const h = healthyHome();
+  w(path.join(h.hive, 'start.ps1'), '# start');
   h.settings.hooks.SessionStart = [{ hooks: [{ type: 'command', command: 'powershell -NoProfile -ExecutionPolicy Bypass -File "$HOME\\.claude\\hive\\start.ps1"' }] }];
   w(path.join(h.claude, 'settings.json'), JSON.stringify(h.settings));
   const r = run(h);
   assert.deepEqual(fixes(r), []);
   assert.ok(r.lines.some((l) => l.id === 'hook:start'));
+});
+
+test('Windows: the older PowerShell start in three parts, one part missing', { skip: process.platform !== 'win32' && 'the PowerShell start entries are the Windows shape (a $HOME\\ path and powershell); this computer is not Windows' }, () => {
+  const h = healthyHome();
+  w(path.join(h.hive, 'start.ps1'), '# start');
+  const ps = (p) => ({ hooks: [{ type: 'command', command: `powershell -NoProfile -ExecutionPolicy Bypass -File "$HOME\\.claude\\hive\\start.ps1" -Part ${p}`, shell: 'powershell' }] });
+  h.settings.hooks.SessionStart = ['rules', 'state', 'flight'].map(ps);
+  w(path.join(h.claude, 'settings.json'), JSON.stringify(h.settings));
+  assert.deepEqual(fixes(run(h)), []);
+  h.settings.hooks.SessionStart.pop();
+  w(path.join(h.claude, 'settings.json'), JSON.stringify(h.settings));
+  assert.match(run(h).lines.find((l) => l.id === 'hook-missing').text, /'flight'/);
 });
 
 test('planted fault 2: a wrong notebook path (HIVE_ROOT names an empty folder; the chat is in the real notebook)', () => {
@@ -146,7 +173,7 @@ test('Node moved after the install: the hook points at a program that is gone', 
 
 test('the start script gone: both the part and the hook are reported', () => {
   const h = healthyHome();
-  fs.rmSync(path.join(h.hive, 'start.ps1'));
+  fs.rmSync(path.join(h.hive, 'start.mjs'));
   assert.deepEqual(fixes(run(h)).sort(), ['hook-broken', 'part-missing']);
 });
 

@@ -89,8 +89,27 @@ function ps(script, args, input, env) {
   const t = Date.now();
   const r = spawnSync('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', script, ...args], { input, env, encoding: 'utf8', timeout: 60000 });
   let json = null; try { json = JSON.parse(r.stdout); } catch {}
-  return { code: r.status, out: r.stdout, json, ms: Date.now() - t, err: r.stderr };
+  // A program that could not start (no PowerShell here) gives no output at all: '' then, so a check fails, never crashes.
+  return { code: r.status, out: r.stdout || '', json, ms: Date.now() - t, err: r.stderr || (r.error ? String(r.error.message) : '') };
 }
+// The same for a program run with this Node (the start step's own program, start.mjs).
+function nodeRun(script, args, input, env) {
+  const t = Date.now();
+  const r = spawnSync(process.execPath, [script, ...args], { input, env, encoding: 'utf8', timeout: 60000 });
+  let json = null; try { json = JSON.parse(r.stdout); } catch {}
+  return { code: r.status, out: r.stdout || '', json, ms: Date.now() - t, err: r.stderr || (r.error ? String(r.error.message) : '') };
+}
+// Tests skipped on purpose, each with its reason; printed before the last line and counted in it, never left out quietly.
+const skipped = [];
+function skip(name, why) { skipped.push({ name, why }); }
+const HAS_PS = spawnSync('powershell', ['-NoProfile', '-Command', 'exit 0'], { encoding: 'utf8', timeout: 60000 }).status === 0;
+const NO_PS = 'this computer has no PowerShell (Linux or a Mac: GitHub\'s checks run on Ubuntu)';
+// The start step: start.ps1 is only a thin door that hands the work to start.mjs (the program the installer puts in the
+// hooks). With PowerShell the door is tested too; without it the same checks run on start.mjs itself, and the door is
+// counted as skipped.
+const START_MJS = path.join(REAL_ROOT, 'core', 'start', 'start.mjs');
+const startRun = (args, input, env) => (HAS_PS ? ps(START, args, input, env) : nodeRun(START_MJS, args, input, env));
+if (!HAS_PS) skip('the PowerShell door of the start step (start.ps1); its checks ran on start.mjs, which the door hands to', NO_PS);
 
 // ---------- the table ----------
 const rows = [];
@@ -102,7 +121,7 @@ const probe = JSON.stringify({ session_id: '', cwd: REAL_ROOT, source: 'startup'
 let rulesCtx = '', allCtx = '';
 const startTimes = [];
 for (const part of ['rules', 'state', 'flight', 'all']) {
-  const r = ps(START, ['-Part', part, '-NoRefresh'], probe, startEnv);
+  const r = startRun(['-Part', part, '-NoRefresh'], probe, startEnv);
   startTimes.push(`${part} ${r.ms} ms`);
   const ctx = (r.json && r.json.hookSpecificOutput && r.json.hookSpecificOutput.additionalContext) || '';
   const banner = (r.json && r.json.systemMessage) || '';
@@ -129,7 +148,7 @@ w(path.join(BIG, 'system', 'in-flight.md'), '# In flight\n- ' + 'One very long s
 w(path.join(BIG, 'inbox', 'answers.md'), Array.from({ length: 30 }, (_, i) => `- [ ] Answer ${i}: ` + 'yes '.repeat(200)).join('\n'));
 const bigProbe = JSON.stringify({ session_id: '', cwd: BIG, source: 'startup' });
 for (const part of ['state', 'flight', 'all']) {
-  const r = ps(START, ['-Part', part, '-NoRefresh'], bigProbe, { ...process.env, HIVE_STATE: STATE, HIVE_ROOT: BIG });
+  const r = startRun(['-Part', part, '-NoRefresh'], bigProbe, { ...process.env, HIVE_STATE: STATE, HIVE_ROOT: BIG });
   const ctx = (r.json && r.json.hookSpecificOutput && r.json.hookSpecificOutput.additionalContext) || '';
   check(`Oversized notes, part "${part}": shortened on purpose`, '<= 9000 and ends with a pointer to the full file', `${ctx.length} characters; pointer: ${/read the rest in [^\]]+\]$/.test(ctx.trim())}`, ctx.length > 0 && ctx.length <= 9000 && /read the rest in [^\]]+\]\s*$/.test(ctx));
 }
@@ -138,7 +157,7 @@ for (const part of ['state', 'flight', 'all']) {
 const CSID = 'sess-compact';
 w(path.join(STATE, 'gates', 'rec', CSID + '.json'), JSON.stringify({ reads: [DIRECTION], scout: true }));
 w(path.join(STATE, 'gates', 'rec', CSID + '__agent9.json'), JSON.stringify({ reads: [DIRECTION], scout: true }));
-const rc = ps(START, ['-Part', 'rules', '-NoRefresh'], JSON.stringify({ session_id: CSID, cwd: REAL_ROOT, source: 'compact' }), startEnv);
+const rc = startRun(['-Part', 'rules', '-NoRefresh'], JSON.stringify({ session_id: CSID, cwd: REAL_ROOT, source: 'compact' }), startEnv);
 const rcCtx = (rc.json && rc.json.hookSpecificOutput.additionalContext) || '';
 check('Compaction: part 1 tells Claude it was shortened', 'NOTICE about the compaction in part 1', /just shortened \(compacted\)/.test(rcCtx) ? 'notice present' : 'no notice', /just shortened \(compacted\)/.test(rcCtx));
 check('Compaction: the design record is cleared (chat and its helpers)', 'both record files gone; start record written',
@@ -147,6 +166,8 @@ check('Compaction: the design record is cleared (chat and its helpers)', 'both r
 
 // The cloud start step (sh), when this machine has sh.
 const sh = spawnSync('sh', ['-c', 'echo ok'], { encoding: 'utf8' });
+// Counted, not left out quietly: Windows PowerShell has no sh on its path (Git Bash and Linux do).
+if (sh.status !== 0) skip('the cloud start step (start-cloud.sh): its parts, its rules, and the cloud form of the person checks', 'this computer has no sh (Windows without Git Bash on the path)');
 if (sh.status === 0) {
   for (const part of ['rules', 'state', 'flight', '']) {
     const r = spawnSync('sh', [CLOUD, ...(part ? [part] : [])], { env: { ...process.env, HIVE_FORCE_CLOUD: '1', HIVE_ROOT: REAL_ROOT }, encoding: 'utf8' });
@@ -175,7 +196,7 @@ function makeNotebook(name, profile, eol = '\n') {
 }
 const MAYA_PROFILE = '# About you\n\nCall them: Maya\nAlways call me by my first name.\nWhat fills her days: a garden shop of her own.\n';
 const startOut = (dir, part) => {
-  const r = ps(START, ['-Part', part, '-NoRefresh'], JSON.stringify({ session_id: '', cwd: dir, source: 'startup' }), { ...process.env, HIVE_STATE: STATE, HIVE_ROOT: dir });
+  const r = startRun(['-Part', part, '-NoRefresh'], JSON.stringify({ session_id: '', cwd: dir, source: 'startup' }), { ...process.env, HIVE_STATE: STATE, HIVE_ROOT: dir });
   return (r.json && r.json.hookSpecificOutput && r.json.hookSpecificOutput.additionalContext) || '';
 };
 const cloudOut = (dir, part) => spawnSync('sh', [CLOUD, ...(part ? [part] : [])], { env: { ...process.env, HIVE_FORCE_CLOUD: '1', HIVE_ROOT: dir }, encoding: 'utf8' }).stdout.split(CR).join('');
@@ -1811,7 +1832,8 @@ check('No notebook on this computer', 'does nothing', silent(r) ? 'nothing' : r.
   check('Notebook not found while installed: said out loud, once per chat', 'a message to the person and to Claude, then quiet', `first: ${said ? 'said' : l1.out.slice(0, 60) || 'nothing'}; second: ${silent(l2) ? 'quiet' : 'again'}`, said && silent(l2));
   r = gate('pretool', base({ hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: page } }), env2);
   check('Notebook not found: an ordinary step is not stopped', 'does nothing', silent(r) ? 'nothing' : r.out, silent(r));
-  r = gate('pretool', base({ hook_event_name: 'PreToolUse', tool_name: 'Bash', tool_input: { command: 'rm -rf C:/work/notes' } }), env2);
+  // A folder outside the temporary folders on either system (C:/work is relative, so under the temp folder, on Linux).
+  r = gate('pretool', base({ hook_event_name: 'PreToolUse', tool_name: 'Bash', tool_input: { command: `rm -rf ${process.platform === 'win32' ? 'C:/work/notes' : '/work/notes'}` } }), env2);
   check('Notebook not found: the safety checks still run (a delete outside temp)', 'DENIED (yes)', show(r).slice(0, 90), denied(r) && reason(r).includes('HIVE GATE (yes)'));
   w(path.join(ST2, 'gates-off'), '');
   { const po = pr('sess-off'); const said = !!(po.json && /switched off/.test(po.json.systemMessage || '') && !/most checks are off/.test(po.json.systemMessage || ''));
@@ -2069,7 +2091,13 @@ const otherHook = { matcher: 'Write|Edit', hooks: [{ type: 'command', command: '
 w(path.join(FAKE, 'settings.json'), JSON.stringify({ theme: 'auto', skillOverrides: { 'anthropic-skills:caveman': 'off' }, hooks: { SessionStart: [{ hooks: [{ type: 'command', command: '& "$HOME\\.claude\\hive\\start.ps1"', shell: 'powershell' }] }], PostToolUse: [otherHook] }, enabledPlugins: { 'vercel-plugin@vercel': true } }, null, 2));
 w(path.join(FAKE, 'CLAUDE.md'), '# Mine\nkeep this\n<!-- hive-mind:start -->\nold block\n<!-- hive-mind:end -->\nkeep this too\n');
 w(path.join(FAKE, 'hive', 'start.ps1'), '# old start\n');
-const inst = ps(path.join(HERE, 'install.ps1'), ['-ClaudeDir', FAKE, '-Root', REAL_ROOT], '', process.env);
+// The front door of this system: install.ps1 on Windows (PowerShell), install.sh on a Mac or Linux (sh). Both hand the
+// work to core/install/install.mjs, so on a computer with no PowerShell the same checks run through the sh door.
+const INSTALL_SH = path.join(REAL_ROOT, 'core', 'install', 'install.sh');
+const shRun = (cmd) => { const r = spawnSync('sh', [INSTALL_SH, cmd, '--claude-dir', FAKE, '--root', REAL_ROOT], { env: process.env, encoding: 'utf8', timeout: 60000 }); return { code: r.status, out: r.stdout || '', err: r.stderr || '' }; };
+const installRun = () => (HAS_PS ? ps(path.join(HERE, 'install.ps1'), ['-ClaudeDir', FAKE, '-Root', REAL_ROOT], '', process.env) : shRun('install'));
+if (!HAS_PS) skip('the PowerShell doors of the installer (install.ps1, uninstall.ps1); the installer checks ran through install.sh, the Mac and Linux door', NO_PS);
+const inst = installRun();
 const s1 = JSON.parse(fs.readFileSync(path.join(FAKE, 'settings.json'), 'utf8'));
 const cmds = (ev) => (s1.hooks[ev] || []).flatMap((e) => e.hooks.map((h) => [h.command, ...(h.args || [])].join(' ')));
 const ok1 = cmds('SessionStart').filter((c) => /-Part (rules|state|flight)/.test(c)).length === 3 && cmds('SessionStart').length === 3 &&
@@ -2082,17 +2110,26 @@ check('Installer: dated copy of every file it replaced', 'settings.json, start.p
 const cm = fs.readFileSync(path.join(FAKE, 'CLAUDE.md'), 'utf8');
 check('Installer: CLAUDE.md block replaced, the rest kept', 'new block between the markers; own lines kept', cm.includes('keep this too') && cm.includes('hive-gates') && !cm.includes('old block') ? 'as expected' : cm.slice(0, 80), cm.includes('keep this too') && cm.includes('hive-gates') && !cm.includes('old block'));
 check('Installer: gates script and helpers installed', 'gates.mjs and skills/hive-gates present', `${fs.existsSync(path.join(FAKE, 'hive', 'gates', 'gates.mjs'))} ${fs.existsSync(path.join(FAKE, 'skills', 'hive-gates', 'SKILL.md'))}`, fs.existsSync(path.join(FAKE, 'hive', 'gates', 'gates.mjs')) && fs.existsSync(path.join(FAKE, 'skills', 'hive-gates', 'SKILL.md')));
-const inst2 = ps(path.join(HERE, 'install.ps1'), ['-ClaudeDir', FAKE, '-Root', REAL_ROOT], '', process.env);
+const inst2 = installRun();
 const backups2 = fs.readdirSync(FAKE).filter((f) => f.includes('.bak-')).length;
 check('Installer run a second time (idempotent)', '"Nothing to change", no new backups', `${inst2.out.trim().split(/\r?\n/)[0]}; settings backups ${backups2}`, inst2.code === 0 && /Nothing to change/.test(inst2.out) && backups2 === 2);
 // Run the installed hook the way Claude Code would, from the merged entry.
 const entry = s1.hooks.PreToolUse[0].hooks[0];
 const viaEntry = spawnSync(entry.command, entry.args, { input: JSON.stringify(base({ hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: page } })), env: ENV, encoding: 'utf8' });
 check('Installed entry runs as written (exec form, no shell)', 'DENIED like the source script', viaEntry.stdout.includes('"deny"') ? 'denied' : 'exit ' + viaEntry.status + ' ' + viaEntry.stdout, viaEntry.stdout.includes('"deny"'));
-const un = ps(path.join(HERE, 'uninstall.ps1'), ['-ClaudeDir', FAKE, '-Root', REAL_ROOT], '', process.env);
+const un = HAS_PS ? ps(path.join(HERE, 'uninstall.ps1'), ['-ClaudeDir', FAKE, '-Root', REAL_ROOT], '', process.env) : shRun('remove-gates');
 const s2 = JSON.parse(fs.readFileSync(path.join(FAKE, 'settings.json'), 'utf8'));
-const ok2 = !JSON.stringify(s2.hooks).includes('gates.mjs') && s2.hooks.SessionStart.length === 1 && /start\.ps1"$/.test(s2.hooks.SessionStart[0].hooks[0].command) && /ExecutionPolicy Bypass/.test(s2.hooks.SessionStart[0].hooks[0].command) && JSON.stringify(s2.hooks.PostToolUse) === JSON.stringify([otherHook]);
-check('Uninstaller: gates gone, start back to one entry, other hooks kept', 'as described', ok2 ? 'as expected' : JSON.stringify(s2.hooks).slice(0, 100), un.code === 0 && ok2);
+const othersKept = !JSON.stringify(s2.hooks).includes('gates.mjs') && JSON.stringify(s2.hooks.PostToolUse) === JSON.stringify([otherHook]);
+if (HAS_PS) {
+  // Windows: the start step goes back to one entry, the thin start.ps1 door.
+  const ok2 = othersKept && s2.hooks.SessionStart.length === 1 && /start\.ps1"$/.test(s2.hooks.SessionStart[0].hooks[0].command) && /ExecutionPolicy Bypass/.test(s2.hooks.SessionStart[0].hooks[0].command);
+  check('Uninstaller: gates gone, start back to one entry, other hooks kept', 'as described', ok2 ? 'as expected' : JSON.stringify(s2.hooks).slice(0, 100), un.code === 0 && ok2);
+} else {
+  // A Mac or Linux: only the gate entries go; the three start entries (start.mjs in node) stay as they are.
+  const starts = (s2.hooks.SessionStart || []).flatMap((e) => e.hooks.map((h) => [h.command, ...(h.args || [])].join(' ')));
+  const ok2 = othersKept && starts.length === 3 && starts.every((c) => /start\.mjs -Part (rules|state|flight)$/.test(c));
+  check('Uninstaller (remove-gates, through the sh door): gates gone, the three start entries stay, other hooks kept', 'as described', ok2 ? 'as expected' : JSON.stringify(s2.hooks).slice(0, 100), un.code === 0 && ok2);
+}
 
 // ======================= 7. the second roast (2026-11-20): the gates with the loader and every check module =======================
 {
@@ -2108,8 +2145,10 @@ if (!QUIET) {
   console.log('|---|---|---|---|---|');
   rows.forEach((x, i) => console.log(`| ${i + 1} | ${cut(x.name, 90)} | ${cut(x.expected, 70)} | ${cut(x.got, 90).replace(/\|/g, '/')} | ${x.pass ? 'PASS' : 'FAIL'} |`));
   console.log('');
-  console.log('Start step times (PowerShell, no refresh): ' + startTimes.join(', '));
+  console.log(`Start step times (${HAS_PS ? 'PowerShell' : 'start.mjs in node'}, no refresh): ` + startTimes.join(', '));
 }
-console.log(`${pass} of ${rows.length} passed${pass === rows.length ? '' : '; FAILED: ' + rows.filter((x) => !x.pass).map((x) => x.name).join(' / ')}`);
+for (const s of skipped) console.log(`SKIPPED: ${s.name}, because ${s.why}`);
+const skipText = skipped.length ? ` (${skipped.length} group(s) of tests skipped, named above: ${[...new Set(skipped.map((s) => s.why))].join('; ')})` : '';
+console.log(`${pass} of ${rows.length} passed${skipText}${pass === rows.length ? '' : '; FAILED: ' + rows.filter((x) => !x.pass).map((x) => x.name).join(' / ')}`);
 try { fs.rmSync(TMP, { recursive: true, force: true, maxRetries: 10, retryDelay: 500 }); } catch {} // a stopped ssh test helper may still hold its folder for a moment
 process.exit(pass === rows.length ? 0 : 1);

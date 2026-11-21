@@ -73,8 +73,11 @@ export function parse(raw) { try { return raw && raw.trim() ? JSON.parse(raw) : 
 // ---------- where things are ----------
 // The repository a path belongs to: the nearest folder above it with a .git folder or a .git file (a worktree).
 export function repoRootOf(p) {
-  let dir = norm(p);
-  try { if (fs.statSync(dir).isFile()) dir = norm(path.dirname(dir)); } catch { dir = norm(path.dirname(dir)); }
+  // norm() makes the Linux and Mac root "/" an empty text, and an empty text resolves to the working folder; so the
+  // root stays "/" (without this, the walk from "/" read the git folder the program was started in).
+  const top = (d) => norm(d) || '/';
+  let dir = top(p);
+  try { if (fs.statSync(dir).isFile()) dir = top(path.dirname(dir)); } catch { dir = top(path.dirname(dir)); }
   for (let i = 0; i < 40; i++) {
     // Work on the full path: norm() cuts the trailing slash, and a bare drive letter like C: means the
     // current folder on that drive on Windows, which sent the walk back into the working folder.
@@ -82,7 +85,7 @@ export function repoRootOf(p) {
     if (fs.existsSync(path.join(full, '.git'))) return dir;
     const parent = path.dirname(full);
     if (parent === full) return '';
-    dir = norm(parent);
+    dir = top(parent);
   }
   return '';
 }

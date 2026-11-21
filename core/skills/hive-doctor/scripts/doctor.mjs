@@ -184,7 +184,8 @@ export function diagnose(opts = {}) {
       const missing = (id, text) => (asPlugin ? note(id, `${text} (Hive Mind came as a plugin, whose own hooks were not checked).`) : fix(id, text));
       if (!startHooks.length) missing('hook-missing', 'The start step is not connected: new chats will not know you.');
       // In three parts (-Part rules|state|flight) every part must be there; one entry with no -Part is the whole start.
-      else if (startHooks.some((h) => /start\.ps1/.test(h.text) && /-Part\s/.test(h.text))) {
+      // Both forms: the node form (start.mjs, what the installer writes on every system) and the older start.ps1.
+      else if (startHooks.some((h) => /-Part\s/.test(h.text))) {
         for (const p of START_PARTS) {
           if (startHooks.some((h) => new RegExp(`-Part\\s+${p}\\b`).test(h.text))) ok(`hook:start-${p}`, `The start part '${p}' is connected.`);
           else missing('hook-missing', `The start part '${p}' is not connected.`);

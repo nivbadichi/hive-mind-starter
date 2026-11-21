@@ -359,10 +359,12 @@ test("push: a user-name path only warns at a push; a real secret beside it still
 });
 
 test("push hooks: a push holding only a user-name path goes through both pre-push hooks, with the warning shown", { skip: !existsSync(join(HERE, "pre-push")) }, () => {
-  const remote = mkdtempSync(join(tmpdir(), "guardremote-"));
-  made.push(remote);
-  execFileSync("git", ["init", "-q", "--bare", remote]);
   for (const hooks of ["cloud-hooks", "."]) {
+    // A remote of its own for each pass: the two passes make the same saves, and within one second they get the same
+    // ids, so a shared remote already held the second pass's saves and there was nothing left to read (seen on Linux).
+    const remote = mkdtempSync(join(tmpdir(), "guardremote-"));
+    made.push(remote);
+    execFileSync("git", ["init", "-q", "--bare", remote]);
     const { dir, git } = repo({ "a.md": "ok\n" }, { withGuard: true });
     git("remote", "add", "origin", remote);
     git("add", "-A"); git("commit", "-q", "-m", "one");

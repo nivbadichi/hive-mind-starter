@@ -133,11 +133,19 @@ test('on-edit: any file that is not TypeScript under app/ exits 0 at once, silen
   const { root } = fakeRepo(b, { eslint: ESLINT_FAIL, tsc: TSC_FAIL });
   const files = [path.join(root, 'README.md'), path.join(root, 'core', 'x.ts'), path.join(root, 'app', 'src', 'a.css'), path.join(root, 'app', 'node_modules', 'p', 'x.ts'), path.join(root, 'app', '.next', 'types', 'x.ts')];
   for (const f of files) w(f, 'x');
+  // Fastest of N: the time judged is the quickest of up to 15 runs (it stops at the first one under the limit). Under a
+  // full test run the computer is busy and one process start can take longer than the step itself; the step being
+  // slow would make every run slow. Every run must still exit 0 and say nothing.
+  const LIMIT = 250, N = 15;
   for (const f of files) {
-    const runs = [0, 1, 2].map(() => hook(ON_EDIT, editInput(f), b.env));
-    for (const r of runs) assert.deepEqual([r.code, r.out, r.err], [0, '', ''], f);
-    const fastest = Math.min(...runs.map((r) => r.ms));
-    assert.ok(fastest < 250, `${f}: ${fastest} ms`);
+    const ms = [];
+    for (let i = 0; i < N; i++) {
+      const r = hook(ON_EDIT, editInput(f), b.env);
+      assert.deepEqual([r.code, r.out, r.err], [0, '', ''], f);
+      ms.push(r.ms);
+      if (r.ms < LIMIT) break;
+    }
+    assert.ok(Math.min(...ms) < LIMIT, `${f}: fastest of ${ms.length} runs ${Math.min(...ms)} ms (all: ${ms.join(', ')})`);
   }
 });
 
