@@ -1,0 +1,42 @@
+#!/bin/sh
+# Hive Mind: the privacy check before every save point, for places without PowerShell (cloud runs).
+# core/start/start-cloud.sh points git at this folder when a cloud chat starts.
+# Where the check is looked for, in order: $HIVE_GUARD; the copy inside this notebook
+# (core/guard/privacy-guard.mjs, or privacy-guard.ps1); then ~/.claude/hive/. If none can run, the save is refused.
+root="$(git rev-parse --show-toplevel)"
+has() { command -v "$1" >/dev/null 2>&1; }
+
+run_guard() {
+  case "$1" in
+    *.mjs) has node || return 99; node "$1" "$root" ;;
+    *.ps1) has powershell || return 99; powershell -NoProfile -ExecutionPolicy Bypass -File "$1" -Root "$root" ;;
+    *) return 99 ;;
+  esac
+}
+
+code=99
+for g in "$HIVE_GUARD" "$root/core/guard/privacy-guard.mjs" "$root/core/guard/privacy-guard.ps1" "$HOME/.claude/hive/privacy-guard.ps1"; do
+  [ -n "$g" ] && [ -f "$g" ] || continue
+  run_guard "$g"
+  code=$?
+  [ "$code" -eq 99 ] || break
+done
+
+if [ "$code" -eq 99 ]; then
+  echo "HIVE MIND: the privacy check could not run (not found, or neither Node nor PowerShell is available), so this save is refused."
+  exit 1
+fi
+if [ "$code" -eq 1 ]; then
+  echo "HIVE MIND: save refused. Remove what the privacy check found, then save again."
+  exit 1
+fi
+# The save passed: write down which content was checked, so a save made with --no-verify can be named later:
+#   node core/guard/privacy-guard.mjs --unchecked
+gitdir="$(git rev-parse --absolute-git-dir 2>/dev/null)"
+if [ -n "$gitdir" ]; then
+  now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  log="$gitdir/hive-guard-checked.log"
+  [ -f "$log" ] || echo "since $now" > "$log"
+  tree="$(git write-tree 2>/dev/null)" && echo "$tree $now" >> "$log"
+fi
+exit 0

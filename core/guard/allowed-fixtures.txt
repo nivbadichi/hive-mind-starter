@@ -1,0 +1,8 @@
+# Test files that hold a made-up key on purpose, to prove that a leak detector catches it.
+# The privacy check lets that one kind of finding through in that one file, and says how many it let through.
+# One line each:  path | the rule name as the check prints it.  Every other rule still applies in the file.
+# Add a line only for a key you made up. A real key never goes here: remove it from the file.
+core/engine/radar.test.mjs | API key (sk-)
+core/factory/test/factory.test.mjs | API key (sk-)
+core/factory/test/factory.test.mjs | GitHub token
+system/snapshot.test.mjs | Password or secret assignment

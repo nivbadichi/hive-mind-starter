@@ -1,0 +1,12 @@
+{
+  "_about": "The ends of your Hive Mind that the health check watches: the places that carry the same thing and must agree. Read by system/ends-check.mjs. A new Hive Mind has one end beyond this computer, your private copy on GitHub, and the health check already watches that. Add an end here when a new place starts to carry the same thing: a page online (privatePage), a public site (publicSite), a copy kept by hand somewhere else (handCopies).",
+  "deadPhraseSkip": [
+    "system/decisions.md",
+    "system/lessons.md",
+    "system/dead-phrases.md",
+    "CHECKS.md",
+    "knowledge",
+    "inbox",
+    "me"
+  ]
+}

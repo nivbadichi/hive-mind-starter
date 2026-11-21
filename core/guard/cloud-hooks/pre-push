@@ -1,0 +1,11 @@
+#!/bin/sh
+# Hive Mind: the second look before a push, for places without PowerShell (cloud runs).
+# It reads everything the push would send, save by save, so a key that got in through a save made with
+# --no-verify is stopped here.
+root="$(git rev-parse --show-toplevel)"
+node "$root/core/guard/privacy-guard.mjs" --push "$root"
+if [ "$?" -eq 1 ]; then
+  echo "HIVE MIND: push refused. A save that is about to be sent holds what the privacy check stops. Remove it from the saves first."
+  exit 1
+fi
+exit 0

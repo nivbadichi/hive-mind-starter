@@ -1,0 +1,29 @@
+{
+  "progressFile": "system/progress.json",
+  "progressCommand": "node core/engine/progress.mjs show",
+  "verifyFolder": "verify",
+  "recapFile": "^system/recap-\\d{4}-\\d{2}-\\d{2}\\.md$",
+  "recapFinishedMarks": [
+    "^\\s*status:\\s*(finished|final|complete|done)\\b",
+    "^\\s*\\**this recap is (finished|final|complete)\\b"
+  ],
+  "askedForStatus": ["sitrep", "status", "where are we", "how far", "what's left", "what is left", "progress report"],
+  "stateWords": ["done", "chosen", "ready", "being worked on", "in work", "not started", "stuck", "not checked", "waiting on you", "finished"],
+  "progressPhrases": ["so far", "left to do", "still to do", "in work", "being worked on", "not started", "next step", "is now finished", "are now finished", "half done", "almost done", "nearly done"],
+  "progressUnits": ["steps", "parts", "requests", "things", "items", "helpers", "modules", "pieces", "tasks", "waves", "outcomes"],
+  "askStarts": ["shall", "should", "do", "does", "did", "would", "will", "can", "could", "may", "which", "what", "is", "are", "want", "ok", "okay", "how", "where", "when", "who"],
+  "secondPerson": ["you", "your", "yours"],
+  "cardMatch": 0.6,
+  "itemMatch": 0.6,
+  "cardHours": 2,
+  "finishedWords": ["finished", "ready", "perfect"],
+  "notAClaim": ["not", "n't", "never", "no longer", "until", "unless", "if", "when", "once", "before", "almost", "nearly", "yet to", "will be", "would be", "should be", "could be", "to be", "is it", "are they", "not yet"],
+  "selfReady": ["i am ready", "i'm ready", "we are ready", "we're ready", "you are ready", "you're ready", "ready when you are"],
+  "passMinShared": 2,
+  "learned": {
+    "_about": "At the end of a piece of work that changed files (a reply with one of endWords), when file has no heading \"## <today>\", one reminder is put in front of Claude, once per chat per day: write what was learned, in a few plain lines, under that heading; never in the reply.",
+    "file": "system/learned.md",
+    "endWords": ["done", "finished", "fixed", "built", "joined", "complete", "completed", "closed", "wrapped up", "all green", "passing"],
+    "skipMarks": ["/scratchpad/", "/tmp/", "/appdata/local/temp/", "/.claude/worktrees/"]
+  }
+}

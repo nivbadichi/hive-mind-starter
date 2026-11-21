@@ -1,0 +1,40 @@
+{
+  "about": "Numbers and word lists of the private check (rule 9). This file cannot switch the check off: it is a safety check.",
+  "searchTools": ["WebSearch"],
+  "fetchTools": ["WebFetch"],
+  "shellTools": ["Bash", "PowerShell", "mcp__terminal__run_in_terminal"],
+  "publishTools": ["Artifact"],
+  "textTools": ["ArtifactData", "ArtifactComments"],
+  "askWho": "the person",
+  "localToolPatterns": ["^mcp__ccd_", "^mcp__visualize__", "^mcp__mcp-registry__"],
+  "privateDirs": ["me", "private"],
+  "employerMarker": "^kind:\\s*employer\\b|^employer or shared project:\\s*yes\\b",
+  "projectNotes": ["state.md", "profile.md"],
+  "protectedFilePatterns": [
+    "(^|[\\\\/])\\.env(\\.|$)",
+    "protected-names",
+    "(^|[\\\\/])\\.ssh[\\\\/]",
+    "(^|[\\\\/])id_(rsa|ed25519|ecdsa)",
+    "\\.(pem|key|p12|pfx)$",
+    "(^|[\\\\/])\\.claude[\\\\/](\\.credentials|hive[\\\\/])",
+    "(^|[\\\\/])\\.(npmrc|netrc|git-credentials)$",
+    "(^|[\\\\/])app[\\\\/]src[\\\\/]data[\\\\/]snapshot\\.json$"
+  ],
+  "outboundCommandPattern": "(^|[\\s;|&(`\"'])(curl|wget|iwr|irm|invoke-webrequest|invoke-restmethod|scp|sftp|ftp|rsync|nc|ncat|telnet|send-mailmessage|rclone|gsutil|bitsadmin|start-bitstransfer)(\\.exe)?(?=[\\s\"']|$)|\\bgh\\s+(gist|api|issue|pr|release)\\b|\\baws\\s+s3\\b|net\\.webclient|\\bupload(file|string|data)\\b|\\bfetch\\s*\\(|https?\\.request\\s*\\(|\\brequests\\.(post|put|get)\\b|urllib|https?://",
+  "privateMark": {
+    "about": "Text you put between <private> and </private> is never stored by your notebook's own programs. A write into one of these notes, or a run of one of these programs, that carries the mark is refused. The check keeps its own floor of these lists; this file can add to them, never take away.",
+    "patterns": ["<private\\b[^>]*>", "</private\\s*>"],
+    "notes": ["system/questions.json", "system/questions-for-him.md", "system/lessons.md", "inbox/sources.md", "inbox/answers.md", "app/src/data/snapshot.json", "system/in-flight.md", "knowledge/INDEX.md", "system/learned.md"],
+    "programs": ["core/engine/questions\\.mjs", "system/snapshot\\.mjs", "core/engine/progress\\.mjs", "core/engine/radar\\.mjs", "core/engine/registry\\.mjs", "system/ledger\\.mjs"],
+    "writeTools": ["Write", "Edit", "MultiEdit", "NotebookEdit"]
+  },
+  "ownAccounts": {
+    "_about": "Empty out of the box. A search of your own connected mail or drive may carry a protected name only when that connector's one search tool is listed here, whole (^mcp__<connector>__search_...$); any other shape is dropped by the check. Keys and words from private notes are still refused there, and a web search, a fetch, a send, a draft or a share is refused exactly as before. Adding an entry lets more through, so it needs your own words.",
+    "allowSearchTools": []
+  },
+  "shingleWords": 6,
+  "shingleMinLongWords": 3,
+  "maxFileBytes": 1048576,
+  "maxScanChars": 400000,
+  "randomTokenMinLength": 32
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+# Hive Mind: after every save point, refresh your page in the background.
+# Installed to .git/hooks/post-commit only when your page is put online (SETUP.md, step 3).
+# It never blocks or fails a save, and does nothing while the page's code is not in app/.
+root="$(git rev-parse --show-toplevel)"
+script="$root/system/publish-quiet.ps1"
+[ -f "$script" ] || exit 0
+# The record of a publish is saved by the publish step itself; that save must not start another upload.
+[ -n "$HIVE_NO_PUBLISH" ] && exit 0
+[ -f "$root/app/package.json" ] || exit 0
+powershell -NoProfile -Command "Start-Process powershell -WindowStyle Hidden -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File','$script'" >/dev/null 2>&1 &
+exit 0

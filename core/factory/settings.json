@@ -1,0 +1,10 @@
+{
+  "_about": "Hive Mind factory hooks (on-edit.mjs, on-stop.mjs). Modes: 'refuse' (exit 2, the agent must fix it), 'warn' (Claude or you are told, nothing is held) or 'off'. lint.when / types.when: 'edit' (after every edit of TypeScript under app/) or 'stop' (once at the end of the turn, by on-stop.mjs, on the TypeScript files under app/ that git sees as changed). Every switch off at once: the empty file ~/.claude/hive/factory-off (gates-off also stops them).",
+  "enabled": true,
+  "lint": { "mode": "refuse", "when": "stop", "timeoutMs": 20000 },
+  "types": { "mode": "refuse", "when": "edit", "timeoutMs": 22000 },
+  "tests": { "mode": "refuse" },
+  "edit": { "limitMs": 25000 },
+  "stop": { "limitMs": 170000, "maxParallel": 3 },
+  "maxLines": 30
+}

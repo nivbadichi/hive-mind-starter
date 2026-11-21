@@ -1,0 +1,22 @@
+#!/bin/sh
+# Hive Mind: the second look, before anything is sent anywhere. Installed to .git/hooks/pre-push.
+# It reads everything the push would send, save by save, so a key that got in through a save made with
+# --no-verify (which skips the pre-commit check) is stopped here. A push made with --no-verify skips this
+# too: those saves are named by  node core/guard/privacy-guard.mjs --unchecked  (the health check calls it).
+# If the check cannot run, the push is refused.
+root="$(git rev-parse --show-toplevel)"
+guard=""
+for g in "$HIVE_GUARD" "$root/core/guard/privacy-guard.mjs" "$HOME/.claude/hive/privacy-guard.mjs"; do
+  [ -n "$g" ] && [ -f "$g" ] && { guard="$g"; break; }
+done
+if [ -z "$guard" ] || ! command -v node >/dev/null 2>&1; then
+  echo "HIVE MIND: the privacy check could not run before this push (privacy-guard.mjs or Node is missing), so the push is refused."
+  exit 1
+fi
+node "$guard" --push "$root"
+code=$?
+if [ "$code" -eq 1 ]; then
+  echo "HIVE MIND: push refused. A save that is about to be sent holds what the privacy check stops. Remove it from the saves first."
+  exit 1
+fi
+exit 0

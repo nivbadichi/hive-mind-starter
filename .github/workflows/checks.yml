@@ -1,0 +1,39 @@
+# The checks of the copy for new people, for its own public home (the repository hive-mind-starter). This file goes
+# into THAT repository as .github/workflows/checks.yml, by the publish program (core/publish-copy/), never into the
+# notebook's own .github folder. Its paths are the copy's own: the copy's root is the notebook's starter/ folder.
+# Proven by core/factory/github/workflows.test.mjs (every program it names exists under starter/).
+#
+# It only checks: no secret, no key, no deploy, no publish. On a public repository GitHub's checks cost nothing.
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24.17.0
+
+      - name: Privacy check
+        run: node core/guard/privacy-guard.mjs .
+
+      - name: Gates tests
+        run: node core/gates/test.mjs --quiet
+
+      - name: The engine's tests
+        run: node --test "core/engine/*.test.mjs"
+
+      - name: The copy is in step with itself
+        run: node system/ends-check.mjs

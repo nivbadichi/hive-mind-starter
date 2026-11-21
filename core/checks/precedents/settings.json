@@ -1,0 +1,18 @@
+{
+  "extensions": [".tsx", ".jsx", ".ts", ".js", ".mjs", ".cjs", ".css", ".scss", ".html", ".htm", ".vue", ".svelte", ".astro", ".svg",
+    ".py", ".ps1", ".psm1", ".sh", ".swift", ".kt", ".java", ".c", ".cpp", ".h", ".cs", ".go", ".rs", ".rb", ".php", ".sql"],
+  "skipFolders": ["node_modules", ".next", "dist", "build", "out", ".git", ".vercel", "coverage", ".turbo"],
+  "skipTempDir": true,
+  "tempMarks": ["/tmp/", "/scratchpad/"],
+  "lookTools": ["WebSearch", "WebFetch"],
+  "lookToolPatterns": ["^mcp__claude-in-chrome__(navigate|get_page_text)$", "^mcp__Claude_Browser__(navigate|get_page_text)$", "^mcp__.*__web_fetch", "^mcp__.*__search_docs"],
+  "lookAgents": ["web-fetch"],
+  "lookCommandPatterns": ["\\b(curl|wget|Invoke-WebRequest|iwr|Invoke-RestMethod|irm)\\b[^\\n]*https?://", "\\bgh\\s+(search|api)\\b"],
+  "lookHours": 12,
+  "recordFile": "precedents-looks.json",
+  "noteName": "precedent",
+  "noteDirs": ["system/design"],
+  "freshDays": 30,
+  "takenWords": ["taken", "took", "take", "taking", "borrowed", "used from", "what we use"],
+  "maxParents": 8
+}

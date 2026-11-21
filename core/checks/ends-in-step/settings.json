@@ -1,0 +1,18 @@
+{
+  "_about": "Settings of the ends-in-step check (rule 15). The list of ends itself is system/ends.json, which system/ends-check.mjs reads too; this file only holds what this check adds.",
+  "endsFile": "system/ends.json",
+  "endsProgram": "system/ends-check.mjs",
+  "alsoSameFolders": [
+    "core/checks"
+  ],
+  "alsoSameFoldersWhy": "Every check module has a copy in the empty copy for new people too. Remove this line once system/ends.json lists core/checks.",
+  "debtKey": "ends-in-step",
+  "openFile": "ends-in-step-open.json",
+  "openHours": 48,
+  "fullCacheFile": "ends-in-step-full.json",
+  "fullCacheMinutes": 30,
+  "fullRunTimeoutMs": 120000,
+  "backgroundRefresh": true,
+  "askWho": "ask the person in one plain sentence",
+  "theirYes": "their yes"
+}

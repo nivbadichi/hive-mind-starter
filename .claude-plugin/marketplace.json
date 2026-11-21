@@ -1,0 +1,16 @@
+{
+  "name": "hive-mind",
+  "description": "Hive Mind: one memory for all your Claude chats, kept in your own private notebook.",
+  "owner": {
+    "name": "Niv Badichi",
+    "url": "https://github.com/nivbadichi"
+  },
+  "plugins": [
+    {
+      "name": "hive-mind",
+      "source": "./",
+      "description": "The helpers (skills), the start step and the checks (gates) of Hive Mind. Your notes stay in your own notebook.",
+      "category": "productivity"
+    }
+  ]
+}

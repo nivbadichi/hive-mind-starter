@@ -1,0 +1,360 @@
+{
+  "about": "Fixed examples for the Hive Mind code, version 1 (starter/core/journey/code.mjs). The steps page keeps a copy (app/src/lib/journey-vectors.json) and must read every one the same way. \"stages\" is what doctor.mjs --code gives at each stage of the walk on Windows; on another system only the system part differs.",
+  "steps": [
+    "tools",
+    "notebook",
+    "online",
+    "private-checked",
+    "private",
+    "set-up",
+    "starting-set",
+    "parts",
+    "gates",
+    "save-hook",
+    "saved",
+    "started",
+    "clean"
+  ],
+  "good": [
+    {
+      "name": "all zeros",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {}
+      },
+      "code": "HM-4000-CS"
+    },
+    {
+      "name": "all ones",
+      "state": {
+        "system": "other",
+        "route": "both",
+        "steps": {
+          "tools": 1,
+          "notebook": 1,
+          "online": 1,
+          "private-checked": 1,
+          "private": 1,
+          "set-up": 1,
+          "starting-set": 1,
+          "parts": 1,
+          "gates": 1,
+          "save-hook": 1,
+          "saved": 1,
+          "started": 1,
+          "clean": 1
+        }
+      },
+      "code": "HM-7ZZZ-7Z"
+    },
+    {
+      "name": "only tools",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "tools": 1
+        }
+      },
+      "code": "HM-4001-XA"
+    },
+    {
+      "name": "only notebook",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "notebook": 1
+        }
+      },
+      "code": "HM-4002-YC"
+    },
+    {
+      "name": "only online",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "online": 1
+        }
+      },
+      "code": "HM-4004-R0"
+    },
+    {
+      "name": "only private-checked",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "private-checked": 1
+        }
+      },
+      "code": "HM-4008-MR"
+    },
+    {
+      "name": "only private",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "private": 1
+        }
+      },
+      "code": "HM-400G-D8"
+    },
+    {
+      "name": "only set-up",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "set-up": 1
+        }
+      },
+      "code": "HM-4010-FV"
+    },
+    {
+      "name": "only starting-set",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "starting-set": 1
+        }
+      },
+      "code": "HM-4020-AX"
+    },
+    {
+      "name": "only parts",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "parts": 1
+        }
+      },
+      "code": "HM-4040-0H"
+    },
+    {
+      "name": "only gates",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "gates": 1
+        }
+      },
+      "code": "HM-4080-M9"
+    },
+    {
+      "name": "only save-hook",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "save-hook": 1
+        }
+      },
+      "code": "HM-40G0-CA"
+    },
+    {
+      "name": "only saved",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "saved": 1
+        }
+      },
+      "code": "HM-4100-DZ"
+    },
+    {
+      "name": "only started",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "started": 1
+        }
+      },
+      "code": "HM-4200-EN"
+    },
+    {
+      "name": "only clean",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "clean": 1
+        }
+      },
+      "code": "HM-4400-81"
+    },
+    {
+      "name": "a Mac, plugin route, nothing else",
+      "state": {
+        "system": "mac",
+        "route": "plugin",
+        "steps": {}
+      },
+      "code": "HM-5G00-8A"
+    },
+    {
+      "name": "Linux, installer route, nothing else",
+      "state": {
+        "system": "linux",
+        "route": "installer",
+        "steps": {}
+      },
+      "code": "HM-6800-VW"
+    }
+  ],
+  "stages": [
+    {
+      "name": "stage 1: an empty folder",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "tools": 1
+        }
+      },
+      "code": "HM-4001-XA"
+    },
+    {
+      "name": "stage 2: after a clone of the copy",
+      "state": {
+        "system": "windows",
+        "route": "none",
+        "steps": {
+          "tools": 1,
+          "notebook": 1,
+          "online": 1,
+          "clean": 1
+        }
+      },
+      "code": "HM-4407-ZY"
+    },
+    {
+      "name": "stage 3: after install.mjs install",
+      "state": {
+        "system": "windows",
+        "route": "installer",
+        "steps": {
+          "tools": 1,
+          "notebook": 1,
+          "online": 1,
+          "clean": 1,
+          "parts": 1,
+          "gates": 1,
+          "save-hook": 1
+        }
+      },
+      "code": "HM-4CW7-25"
+    },
+    {
+      "name": "stage 4: after the first conversation and the first save",
+      "state": {
+        "system": "windows",
+        "route": "installer",
+        "steps": {
+          "tools": 1,
+          "notebook": 1,
+          "online": 1,
+          "clean": 1,
+          "parts": 1,
+          "gates": 1,
+          "save-hook": 1,
+          "set-up": 1,
+          "starting-set": 1,
+          "saved": 1
+        }
+      },
+      "code": "HM-4DZ7-65"
+    },
+    {
+      "name": "stage 5: after a start record from start.mjs",
+      "state": {
+        "system": "windows",
+        "route": "installer",
+        "steps": {
+          "tools": 1,
+          "notebook": 1,
+          "online": 1,
+          "clean": 1,
+          "parts": 1,
+          "gates": 1,
+          "save-hook": 1,
+          "set-up": 1,
+          "starting-set": 1,
+          "saved": 1,
+          "started": 1
+        }
+      },
+      "code": "HM-4FZ7-49"
+    }
+  ],
+  "wrong": [
+    {
+      "why": "one character mistyped (first)",
+      "text": "HM-0FZ7-49"
+    },
+    {
+      "why": "one character mistyped (last)",
+      "text": "HM-4FZ7-40"
+    },
+    {
+      "why": "one character mistyped (middle)",
+      "text": "HM-7ZZ0-7Z"
+    },
+    {
+      "why": "two neighbours swapped",
+      "text": "HM-F4Z7-49"
+    },
+    {
+      "why": "two neighbours swapped",
+      "text": "HM-Z7ZZ-7Z"
+    },
+    {
+      "why": "a character left out",
+      "text": "HM-4FZ7-4"
+    },
+    {
+      "why": "one character too many",
+      "text": "HM-4FZ7-490"
+    },
+    {
+      "why": "a U, which the alphabet does not use",
+      "text": "HM-U000-00"
+    },
+    {
+      "why": "empty",
+      "text": ""
+    },
+    {
+      "why": "not a code at all",
+      "text": "hello there"
+    }
+  ],
+  "newer": [
+    {
+      "why": "version 2",
+      "text": "HM-8000-SJ"
+    }
+  ],
+  "tolerant": [
+    {
+      "text": "hm-4fz7-49",
+      "code": "HM-4FZ7-49"
+    },
+    {
+      "text": "HM 4FZ7 49",
+      "code": "HM-4FZ7-49"
+    },
+    {
+      "text": "4FZ749",
+      "code": "HM-4FZ7-49"
+    }
+  ]
+}

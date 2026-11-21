@@ -1,0 +1,7 @@
+# Keep every file with Unix line endings (LF), on every computer. This stops the
+# "LF will be replaced by CRLF" warning on every save, and the scripts still run on Windows.
+* text=auto eol=lf
+*.sh text eol=lf
+core/guard/pre-commit text eol=lf
+core/guard/post-commit text eol=lf
+core/guard/cloud-hooks/pre-commit text eol=lf

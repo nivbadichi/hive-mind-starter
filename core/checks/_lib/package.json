@@ -1,0 +1,6 @@
+{
+  "name": "hive-checks-lib",
+  "private": true,
+  "type": "module",
+  "main": "run-tests.mjs"
+}

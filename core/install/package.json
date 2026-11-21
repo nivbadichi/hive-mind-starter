@@ -1,0 +1,6 @@
+{
+  "name": "hive-install",
+  "private": true,
+  "type": "module",
+  "main": "run-tests.mjs"
+}

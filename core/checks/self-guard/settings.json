@@ -1,0 +1,52 @@
+{
+  "_about": "The self-guard check (a safety check): the checks cannot be weakened quietly. These are its word lists. A safety check is never switched off here: making it softer, or taking words out of a list, is refused unless the person asks in their own message.",
+
+  "_his": "Each list: the words in THE PERSON'S OWN latest message that name the act. Any yes-word alone ('sure', 'ok', 'fine') never counts.",
+  "switchWords": ["gates off", "gates on", "checks off", "checks on", "switch off", "switch on", "turn off", "turn on", "factory off", "factory on", "lift the hold", "remove the hold", "put the hold", "softer", "less strict", "notice mode", "to notice", "to off", "mode off", "disable the hooks", "disableallhooks", "clear the log", "delete the log", "reset the checks", "remove the check", "delete the check"],
+  "installWords": ["reinstall", "re-install", "install the gates", "install hive", "run the installer", "run the install", "uninstall", "remove the gates", "update the installed", "copy the checks", "install the checks", "add the small parts", "undo the hive mind setup", "clear what hive mind left", "set up my hive mind", "my hive mind folder was moved"],
+  "_installWords": "The last five are the person's own phrases from the manuals (docs/first-hour.md, docs/when-it-breaks.md, docs/plugin.md): their own repair must never be refused (2026-11-20). check.test.mjs proves each is accepted for what it asks, and that a \"don't ...\" in front still refuses.",
+  "acceptWords": ["accept the installed", "accept the copies", "accept the change", "keep the installed", "the installed copies are fine", "i changed it myself", "i changed them myself", "rule: accept"],
+
+  "_reading": "Shell commands that only look. A command that mentions a guarded place and starts with one of these, with no write in it, passes.",
+  "readVerbs": ["cat", "type", "less", "more", "head", "tail", "ls", "dir", "stat", "wc", "grep", "rg", "find", "findstr", "get-content", "gc", "get-childitem", "gci", "test-path", "select-string", "get-item", "get-filehash", "sha256sum", "certutil", "diff", "fc", "jq", "echo", "write-output", "write-host", "cd", "set-location", "pwd"],
+  "writeWords": ["rm", "rmdir", "del", "erase", "rd", "mv", "move", "cp", "copy", "xcopy", "robocopy", "ren", "rename", "touch", "tee", "mkdir", "ni", "new-item", "set-content", "add-content", "out-file", "clear-content", "remove-item", "ri", "copy-item", "move-item", "rename-item", "sed -i", "truncate", "ln", "chmod", "attrib", "icacls", "writefile", "writefilesync", "appendfile", "rmsync", "unlink", "rename(", "copyfile", "truncatesync", "write_text", "os.remove", "shutil", "git checkout", "git restore", "git rm", "git mv", "git apply", "git reset", "git clean", "git stash", "-delete", "-exec", "-execdir", "os.remove", "os.unlink", "unlinksync", "rmdirsync", "rimraf"],
+  "ourReaders": ["self-guard/cli.mjs verify", "self-guard/cli.mjs hooks", "self-guard/cli.mjs canary", "self-guard/cli.mjs probe", "self-guard/cli.mjs log", "self-guard/cli.mjs count", "gates.mjs where", "gates.mjs fit", "node --test"],
+  "installers": ["core/install/install.mjs", "core\\install\\install.mjs", "core/gates/install.ps1", "core\\gates\\install.ps1", "core/gates/uninstall.ps1", "core\\gates\\uninstall.ps1", "install.sh", "claude plugin"],
+
+  "_held": "While an installed copy differs from the notebook's and the person has not ruled, these tools still pass (they only read).",
+  "readTools": ["Read", "Grep", "Glob", "LS", "Skill", "ToolSearch", "AskUserQuestion", "WebSearch", "WebFetch", "SubagentHandback", "SendMessage"],
+  "shellTools": ["Bash", "PowerShell"],
+  "writeTools": ["Write", "Edit", "MultiEdit", "NotebookEdit"],
+
+  "_lists": "Keys whose list grows to let MORE through: adding to these is a weakening too.",
+  "looserLists": "skip|ignore|allow|except|exempt|safe|readonly|readverbs|readtools|ourreaders|freefolders|acceptwords|plainyes|okwords|connectorreads",
+
+  "held": {
+    "_about": "How hard the lock bites while an installed copy of the checks differs from the notebook's and the person has not ruled. \"strict\" (the default): every step but reading is refused, in every chat and every helper. \"narrow\": it is said at once in the main chat, and only the acts that matter are refused there and in every helper (anything that publishes, deletes, installs, spends, or writes to the checks, the gates, the Hive folder or Claude's settings); a helper working in its own copy on its own files, and ordinary work, go on. In both: reading, the installer's help and dry run, the comparison (self-guard/cli.mjs verify) and the installer run on the person's word are never refused. Turning strict to narrow is a weakening: it needs the person's own words.",
+    "bite": "strict",
+    "question": "While the installed safety checks differ from the notebook's copy, should only the risky steps (publishing, deleting, installing, spending, changing the checks) be stopped, instead of every step but reading?",
+    "matters": [
+      "\\b(vercel|netlify|wrangler|firebase|surge)\\b",
+      "\\bpublish(-quiet|-public)?\\.ps1\\b",
+      "\\b(npm|pnpm|yarn|bun)\\s+publish\\b",
+      "\\bgh\\s+(release|repo\\s+create|pr\\s+merge|api)\\b",
+      "\\bgit\\b[^\\n]*\\bpush\\b",
+      "(^|[\\s;&|(])(rm|rmdir|del|erase|rd|remove-item|ri|unlink|shred|rimraf)\\b",
+      "\\bgit\\b[^\\n]*\\b(rm|clean|reset\\s+--hard|checkout\\s+--)\\b",
+      "\\b(npm|pnpm|yarn|bun)\\s+(i|install|add|ci)\\b",
+      "\\b(pip3?|pipx|uv)\\s+(install|add)\\b",
+      "\\b(winget|choco|brew|apt|apt-get|scoop)\\s+install\\b",
+      "\\b(npx|bunx|pnpx|uvx)\\b",
+      "\\bclaude\\s+(mcp|plugins?)\\b",
+      "\\b(curl|wget|iwr|invoke-webrequest|irm|invoke-restmethod)\\b[^\\n]*\\|"
+    ],
+    "connectorReads": ["get", "list", "read", "search", "query", "fetch", "find", "describe", "view", "whoami", "show", "count", "aggregate", "explore"]
+  },
+  "freeFolders": ["verify", "sources"],
+  "_freeFolders": "Folders inside the Hive folder that Claude may write: a checker's evidence (verify) and the copies of what the person sends (sources, the front door). Everything else there is written by Hive Mind's programs or by the person.",
+  "hashBudgetMs": 50,
+  "_hashBudgetMs": "At the person's message, new files are read for at most this long (50 ms, so the whole step stays well inside the 200 ms the loader gives one step) (the gates and the start step first, the skills last); the rest is finished at the next messages, from a cache. The verify command always compares everything.",
+  "canary": { "_about": "Proof that the hooks really fire: each step leaves a mark; at the person's next message a missing mark is said. Only the person's own message starts a turn (a helper's report or a notice does not), and a message that came while a reply was still being written is judged one message later. The before-a-tool step is missing only for a tool it always watches (preWatched) or has watched before in this chat.", "mode": "on", "preWatched": ["Write", "Edit", "MultiEdit", "NotebookEdit", "Bash", "PowerShell"] },
+  "installedChecksDir": "checks-installed",
+  "_installedChecksDir": "Where an installer would put copies of the checks. Never \"checks\": the loader keeps its records there (the second roast, 2026-11-20, finding 1)."
+}

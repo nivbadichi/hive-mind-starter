@@ -1,0 +1,24 @@
+{
+  "_about": "Hive Mind factory, layer 2: which checks cover which files. A check runs at the end of a turn when a changed file is one of its entries, is reached from an entry through static imports (relative paths and the @/ alias, found by the program), or matches one of its hand-kept 'covers' globs (what imports cannot show: files loaded by a computed path, settings, scripts). Paths are relative to the notebook, with forward slashes. 'manual' checks need a running server or a build; they are named to Claude, never run by the hook. This copy starts with two checks; add one for each program or page you build, and keep it by hand.",
+  "aliases": { "@/": "app/src/" },
+  "checks": [
+    {
+      "id": "gates",
+      "about": "the Hive Mind gates and the split start step (about 50 s)",
+      "run": ["node", "core/gates/test.mjs", "--quiet"],
+      "cwd": ".",
+      "timeoutMs": 150000,
+      "entries": ["core/gates/test.mjs"],
+      "covers": ["core/gates/**", "core/start/**", "system/rules.md"]
+    },
+    {
+      "id": "factory",
+      "about": "these hooks' own tests",
+      "run": ["node", "--test", "core/factory/test/factory.test.mjs"],
+      "cwd": ".",
+      "timeoutMs": 120000,
+      "entries": ["core/factory/test/*.test.mjs"],
+      "covers": ["core/factory/**"]
+    }
+  ]
+}

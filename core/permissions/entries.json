@@ -1,0 +1,63 @@
+{
+  "_about": "Hive Mind's entries for Claude Code's own permission lists (rules 1 and 2, at the app's level). The app evaluates deny, then ask, then allow; an ask entry makes the app itself ask the person, in every mode, bypassPermissions included; a deny entry refuses, and nobody can approve it from the prompt. Sources: https://code.claude.com/docs/en/permissions (Manage permissions; Wildcard patterns; Tool name wildcards; Bash; PowerShell; Read and Edit; MCP) and https://code.claude.com/docs/en/permission-modes (actions no mode auto-approves), both read 2026-11-20. 'shell' entries become two rules, Bash(...) and PowerShell(...). __ROOT__ is the notebook and __HIVE__ the Hive folder, both written as rule paths (~/... or //c/...). Change this list, then merge again; the record says what was added, so removal takes out only that.",
+  "version": 1,
+  "groups": [
+    {
+      "act": "publish or deploy",
+      "rule": "rule 1",
+      "list": "ask",
+      "why": "Anything that puts something online. The leading * matches the word anywhere in the command, so wrappers (cmd /c, node -e, Start-Process, a variable holding the name) are caught too.",
+      "shell": ["*vercel*", "*netlify*", "*wrangler*", "*firebase deploy*", "*npm publish*", "*pnpm publish*", "*yarn publish*", "*yarn npm publish*", "*gh release *", "*gh repo create*", "*gh gist create*", "*gh pages*", "*surge *", "*publish*.ps1*", "*npm run deploy*", "*npm run publish*", "*npm run release*", "*pnpm deploy*", "*pnpm run deploy*", "*pnpm run publish*", "*yarn deploy*", "*yarn run deploy*", "*publish-hold*"],
+      "tools": ["mcp__*__create_deployment", "mcp__*__request_promote", "mcp__*__deploy_to_vercel", "mcp__*__promote_deployment", "mcp__*__request_rollback", "mcp__*__theme_publish", "mcp__*__publish-digital-product", "mcp__*__publish-brand-template", "mcp__*__assign_alias", "mcp__*__start_rolling_release"]
+    },
+    {
+      "act": "force-push or rewrite what is online",
+      "rule": "rule 1",
+      "list": "ask",
+      "why": "A force-push can overwrite work on GitHub; deleting a remote branch removes it there.",
+      "shell": ["git push*--force*", "git push* -f*", "git push*+*", "git push*--delete*", "git push*--mirror*", "*git push*--force*", "*git * push*--force*", "*git * push* -f*"]
+    },
+    {
+      "act": "delete",
+      "rule": "rule 1",
+      "list": "ask",
+      "why": "Deleting files or data. The app's rules cannot tell a temporary folder from the notes in a shell command, so every delete asks.",
+      "shell": ["rm *", "*/rm *", "rmdir *", "unlink *", "shred *", "*'rm *", "*\"rm *", "* rm *", "*rm -r*", "*rm -f*", "*Remove-Item*", "*rimraf*", "*del /*", "*rd /s*", "*rmdir /s*", "*rmSync*", "*rmdirSync*", "*unlinkSync*", "*fs.rm(*", "*fs.unlink(*", "*rmtree*", "*os.remove*", "*os.unlink*", "*]::Delete(*", "*find * -delete*", "git rm *", "git clean *", "git reset --hard*", "git stash drop*", "git stash clear*", "git branch -D *", "git branch -d *", "git worktree remove *", "*git checkout -- *", "*git restore *"],
+      "tools": ["mcp__*__*delete*", "mcp__*__*trash*", "mcp__*__*remove_file*"],
+      "params": ["Artifact(action:delete)"]
+    },
+    {
+      "act": "spend money",
+      "rule": "rule 2",
+      "list": "ask",
+      "why": "A paid tool or a purchase.",
+      "tools": ["mcp__*__buy_domain", "mcp__*__create_or_transfer_domain", "mcp__*__*purchase*", "mcp__*__*checkout*", "mcp__*__*payment*", "mcp__*__*subscribe*"],
+      "shell": ["*domains buy*", "*domains transfer*"]
+    },
+    {
+      "act": "install a package, plugin, skill or connector",
+      "rule": "rule 10",
+      "list": "ask",
+      "why": "Anything new brought in from outside. A bare 'npm install' also asks: the app's rules cannot tell it from 'npm install <name>'.",
+      "shell": ["*npm install*", "*npm i *", "npm i", "*npm add *", "*pnpm add *", "*pnpm install*", "*pnpm i *", "*yarn add *", "*yarn global *", "*bun add *", "*bun install*", "*pip install*", "*pip3 install*", "*-m pip install*", "*uv pip install*", "*uv add *", "*pipx install*", "*winget install*", "*choco install*", "*brew install*", "*scoop install*", "*cargo install*", "*go install*", "*gem install*", "*Install-Module*", "*Install-Package*", "npx *", "*npx *", "*pnpm dlx*", "*bunx *", "*uvx *", "*skills add*", "*claude mcp add*", "*claude plugin*", "*marketplace add*", "sh", "bash", "sh -*", "bash -s*","Invoke-Expression*", "*iex *", "*git apply *"],
+      "edit": ["~/.claude/skills/**", "~/.claude/plugins/**", "~/.claude/agents/**", "~/.claude/commands/**", "~/.claude.json", "//**/.mcp.json"],
+      "tools": ["mcp__*__set_session_connector_enabled", "mcp__*__reconnect_session_connector"]
+    },
+    {
+      "act": "change the checks, their settings, the hooks' settings or the hold file",
+      "rule": "the checks themselves",
+      "list": "ask",
+      "why": "So Claude cannot switch off or weaken its own checks quietly: the app asks you first. Edit rules cover Write, Edit and NotebookEdit.",
+      "edit": ["~/.claude/settings.json", "~/.claude/settings.local.json", "//**/.claude/settings.json", "//**/.claude/settings.local.json", "__HIVE__/**", "__ROOT__/core/gates/**", "__ROOT__/core/checks/**", "__ROOT__/core/permissions/**", "__ROOT__/core/guard/**", "__ROOT__/core/start/**", "__ROOT__/core/install/**", "__ROOT__/.githooks/**", "__ROOT__/.git/hooks/**"],
+      "shell": ["*gates-off*", "*.claude/settings*", "*.claude\\settings*", "*hive/gates*", "*hive\\gates*", "*core/permissions/permissions.mjs remove*", "*core\\permissions\\permissions.mjs remove*", "*core.hooksPath*"]
+    },
+    {"act":"what a hook may never see (the second roast, 2026-11-20)","from":"roast-2","rule":"rules 1 and 2, and the checks themselves","list":"ask","why":"The app's own layer for steps the gates cannot be sure to see: a connector tool the installed before-a-tool hook does not watch (until its matcher is \"*\"), a hook that times out or breaks (then the tool runs), code read from standard input, a GitHub workflow that deploys, a delete by robocopy or by git run in another folder, a send on your behalf. The app asks you whatever a hook did.","shell":["iex","Invoke-Expression","node","node -","node <*","python -","python <*","python3 -","*gh workflow run*","*gh workflow enable*","*gh api*dispatches*","*robocopy*/MIR*","*robocopy*/mir*","*robocopy*/PURGE*","*robocopy*/purge*","*robocopy*/MOV*","*robocopy*/mov*","*git -C * rm *","*git -C * clean*"],"tools":["mcp__*__push_files","mcp__*__create_or_update_file","mcp__*__merge_pull_request","mcp__*__run_in_terminal","mcp__*__send_message","mcp__*__send_email","mcp__*__forward","mcp__*__reply"]},
+    {
+      "act": "walk around the checks",
+      "rule": "the checks themselves",
+      "list": "deny",
+      "why": "Skipping the save-point checks or switching every hook off is never done by Claude; you do it yourself by hand if you want it.",
+      "shell": ["*--no-verify*", "*disableAllHooks*"]
+    }
+  ]
+}

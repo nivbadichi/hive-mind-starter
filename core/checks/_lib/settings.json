@@ -1,0 +1,10 @@
+{
+  "who": "the person",
+  "isolate": false,
+  "stepMs": 200,
+  "totalMs": 1500,
+  "maxContext": 9000,
+  "readingTools": ["Read", "Glob", "Grep", "LS", "NotebookRead", "ToolSearch", "Skill", "TaskOutput", "AskUserQuestion", "TodoWrite", "mcp__ccd_turn__update_plan", "mcp__ccd_turn__wrap_up"],
+  "readingCommands": ["ls", "dir", "cat", "type", "head", "tail", "wc", "grep", "rg", "pwd", "echo", "stat", "file", "less", "more", "diff", "cut", "sort", "uniq", "tr", "comm", "which", "where", "get-content", "gc", "get-childitem", "gci", "select-string", "test-path", "get-item", "get-location", "resolve-path", "write-output", "write-host", "measure-object", "select-object", "where-object", "format-table", "format-list", "convertfrom-json", "out-string"],
+  "gitReading": ["status", "log", "diff", "show", "blame", "ls-files", "rev-parse", "describe", "shortlog", "grep", "cat-file"]
+}

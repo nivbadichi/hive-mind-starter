@@ -1,0 +1,23 @@
+{
+  "_about": "The numbers and word lists of the understand-first check (rule 4). Change a list and save. This file never switches the check off: its mode is in check.mjs, and only you, in your own message, change it.",
+  "stageWords": ["discover", "define", "plan", "design", "build", "verify", "release", "maintain", "close", "paused", "not set up"],
+  "codeAllowedAt": ["build", "verify", "release", "maintain"],
+  "codeExtensions": [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts", ".tsx", ".jsx", ".py", ".ps1", ".psm1", ".sh", ".css", ".scss", ".html", ".htm", ".vue", ".svelte", ".astro", ".swift", ".kt", ".java", ".c", ".cpp", ".h", ".cs", ".go", ".rs", ".rb", ".php", ".sql", ".ipynb"],
+  "notesFolders": ["projects", "me", "inbox", "knowledge", "log", "ledger", "archive"],
+  "skipFolders": ["node_modules", ".next", "dist", "build", "out", ".git", ".vercel", "coverage", ".turbo"],
+  "approvalWords": ["yes", "yep", "yeah", "approved", "approve", "i approve", "go ahead", "do it", "build it", "start building", "agreed", "ok", "okay", "sure", "looks good", "confirmed"],
+  "helperTools": ["Agent", "Task"],
+  "helperToolEndings": ["__start_session"],
+  "readOnlyAgents": ["Explore", "web-fetch", "claude-code-guide"],
+  "readOnlyMarker": "Mode: read-only",
+  "proof": {
+    "heading": "How it will be proven",
+    "placeholders": ["tbd", "todo", "n/a", "na", "none", "nothing", "later", "to do", "see above", "same as above", "same", "as usual", "the usual", "...", "?"],
+    "parts": [
+      { "name": "Today" },
+      { "name": "Steps" },
+      { "name": "Must pass", "needs": "`[^`]+`|\\b(node|npm|npx|pnpm|yarn|pytest|vitest|jest|playwright|tsc|eslint|test|tests|check|checks)\\b", "needsWhat": "name the check or test that must pass, with its command" },
+      { "name": "Files touched", "needs": "[\\w*.~-]+[\\\\/]|\\*|\\.[a-z0-9]{1,6}\\b", "needsWhat": "name at least one path or glob" }
+    ]
+  }
+}

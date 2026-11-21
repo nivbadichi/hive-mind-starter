@@ -1,0 +1,20 @@
+{
+  "name": "hive-mind",
+  "displayName": "Hive Mind",
+  "version": "0.1.0",
+  "description": "One memory for all your chats: every new chat starts knowing your rules, your projects and where things stand, read from your own private notebook. Brings the helpers (skills), the start step and the checks (gates).",
+  "author": {
+    "name": "Niv Badichi"
+  },
+  "repository": "https://github.com/nivbadichi/hive-mind-starter",
+  "license": "PolyForm-Shield-1.0.0",
+  "keywords": ["memory", "notebook", "rules", "start", "gates"],
+  "skills": ["./core/skills/"],
+  "userConfig": {
+    "notebook": {
+      "type": "directory",
+      "title": "Your notebook folder",
+      "description": "The folder of your private Hive Mind notebook, your own copy of it on this computer. Leave it empty if the notebook is in hive-mind in your home folder."
+    }
+  }
+}

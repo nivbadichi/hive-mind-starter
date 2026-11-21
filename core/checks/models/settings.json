@@ -1,0 +1,35 @@
+{
+  "_about": "The models check (rule 12). policy.minimum is the weakest model family a helper may run on, in the order of rank (weakest first); \"any\" means any named model. The policy is yours to set, in one sentence of your own: a change of policy, rank, families or any switch below, made without your latest own message naming the model, is refused. Only the word lists in freeKeys may change freely. requireSetting: the model must be set by the Agent tool's model setting, because a \"Model:\" line in a prompt is a claim. readOnlyFloor: \"exempt\" lets a read-only search helper (readOnlyAgents) start on any model or none, as rule 12 sends searching to the smallest model; \"hold\" holds it to the minimum too. forkWhenLeadUnknown: a fork runs on the lead's model; \"refuse\" stops it when that model cannot be seen.",
+  "who": "the person",
+  "policy": {
+    "minimum": "any",
+    "words": "The strongest model plans and reviews; the smallest model that does the job well does the rest. Say which model did what.",
+    "since": "",
+    "where": "rule 12 in system/rules.md",
+    "howToChange": "Say it in one sentence, for example \"helpers must run on Opus at the least\"; Claude then changes policy.minimum, policy.words and policy.since to your words and today's date."
+  },
+  "rank": ["haiku", "sonnet", "opus", "fable"],
+  "families": {
+    "haiku": ["haiku"],
+    "sonnet": ["sonnet"],
+    "opus": ["opus"],
+    "fable": ["fable"]
+  },
+  "requireSetting": true,
+  "readOnlyFloor": "exempt",
+  "readOnlyAgents": ["Explore"],
+  "readOnlyMarker": "Mode: read-only",
+  "readOnlyMarkerCounts": false,
+  "forkWhenLeadUnknown": "refuse",
+  "inheritAgents": ["fork"],
+  "helperTools": ["Agent", "Task"],
+  "handbackNeedsModel": true,
+  "handbackTools": ["SubagentHandback"],
+  "policyFiles": ["checks/models/settings.json"],
+  "freeKeys": ["_about", "policyWords", "helperWords", "reportWords", "modelWords", "sitrepWords"],
+  "policyWords": ["model", "models"],
+  "helperWords": ["helper", "helpers", "subagent", "subagents", "sub-agent", "reviewer", "checker", "scout", "agent", "agents"],
+  "reportWords": ["reported", "found", "finished", "came back", "built", "wrote", "reviewed", "checked", "made", "did", "fixed", "done"],
+  "modelWords": ["opus", "sonnet", "haiku", "fable", "strongest model", "middle model", "smallest model", "the strongest", "the middle one", "the smallest"],
+  "sitrepWords": ["sitrep", "status?", "where are we", "what's left", "how far"]
+}

@@ -1,0 +1,43 @@
+{
+  "askedAgain": {
+    "decisions": "system/decisions.md",
+    "inForce": "system/decisions-in-force.md",
+    "quoteAtMost": 2,
+    "sameChoice": {
+      "_about": "A saved decision answers a question only when it settles the same choice: the question's own words (besides its topic's words and these small words) are its choice. A question with fewer than minChoiceWords of them asks the topic's choice; else the decision must hold at least minShared of them and minShare of all of them.",
+      "minChoiceWords": 2, "minShared": 2, "minShare": 0.5,
+      "stopWords": ["should", "would", "could", "shall", "which", "what", "these", "those", "this", "that", "there", "their", "them", "they", "then", "than", "with", "from", "into", "your", "yours", "have", "make", "want", "like", "best", "also", "only", "just", "more", "most", "some", "each", "every", "here", "when", "where", "will", "does", "done", "okay", "next", "first", "today", "please", "think", "prefer", "choose", "pick", "between", "about", "using", "show", "look", "need", "ones", "one", "three", "four", "five", "other", "another", "again", "still", "right", "ready", "now", "go ahead", "yes", "keep", "site", "page", "it's", "isn't", "you'd", "we'll"]
+    },
+    "coverWords": ["not covered", "does not cover", "doesn't cover", "you decided", "your decision", "as you decided", "you said on", "you answered", "your answer"],
+    "askWords": ["should i", "shall i", "should we", "shall we", "do you want", "want me to", "would you like", "ok to", "okay to", "is it ok", "is it okay", "can i", "may i", "do i", "are you ok with", "ready to", "yes or no", "go ahead"],
+    "topics": [
+      { "name": "publishing or going live", "ask": ["publish", "go live", "going live", "put it online", "deploy", "make it live", "push it live", "goes live"], "decided": ["publish", "published", "publishing", "go live", "go-live", "deploy", "online"] },
+      { "name": "installing", "ask": ["install", "installing", "installation"], "decided": ["install", "installs", "installation", "installations"] },
+      { "name": "the order of work", "ask": ["what next", "what should i do next", "which first", "what first", "in what order", "start with", "work on next"], "decided": ["order of work", "order:"] },
+      { "name": "which model helpers run on", "ask": ["which model", "opus or sonnet", "sonnet or opus", "what model"], "decided": ["opus", "strongest model", "model"] },
+      { "name": "the site's headline", "ask": ["headline"], "decided": ["headline"] },
+      { "name": "colour palettes", "ask": ["palette", "palettes", "colour scheme", "color scheme"], "decided": ["palette", "palettes"] },
+      { "name": "the name on the legal pages", "ask": ["legal pages", "legal page", "full name", "first name", "which name", "what name"], "decided": ["full name", "name on the legal pages", "name shown"] },
+      { "name": "how many helpers", "ask": ["how many helpers", "how many agents", "helpers at once", "agents at once", "number of helpers"], "decided": ["helpers at once", "number of helpers"] }
+    ]
+  },
+  "answered": { "file": "system/questions.json", "minWordLength": 5, "minShared": 3, "minShare": 0.5 },
+  "wish": {
+    "words": ["always", "never", "from now on", "from here on", "i prefer", "i want you to", "i'd rather", "i would rather", "every time", "each time", "make sure", "remember that", "don't ever", "do not ever", "this is a protocol", "a hive mind protocol", "core rule", "is a rule", "make it a rule", "stop doing", "i told you", "for the last time", "i already said", "i already told you", "how many times", "i never said", "don't forget", "do not forget"],
+    "weakWords": ["always", "never", "every time", "each time"],
+    "weakNeedsOneOf": ["you", "your", "we", "us", "claude", "hive mind", "the system", "make", "use", "ask", "keep", "do", "don't", "stop", "start", "give", "write", "say", "show", "put", "check"],
+    "questionWords": ["i told you", "for the last time", "i never said", "how many times"],
+    "saveTargets": ["system/rules.md", "system/decisions.md", "system/decisions-in-force.md", "system/lessons.md", "system/preferences.md", "system/registry.json", "system/in-flight.md", "me/"]
+  },
+  "savedLine": {
+    "targets": ["system/rules.md", "system/decisions.md", "system/decisions-in-force.md", "system/lessons.md", "system/preferences.md", "system/registry.json", "me/"]
+  },
+  "lessons": { "file": "system/lessons.md", "olderThanDays": 1, "maxShown": 6 },
+  "frontDoor": {
+    "list": "inbox/sources.md",
+    "ignoreHosts": ["localhost", "127.0.0.1"],
+    "maxItems": 12,
+    "endSkills": ["hive-close"],
+    "endCommands": ["\\bhive-close\\b", "\\bsession-end\\.ps1\\b", "\\bgit\\b[^\\n]*\\bcommit\\b[^\\n]*\\b(close|closing|wrap[- ]?up|hand ?over|end of (the )?(session|work))\\b"]
+  }
+}

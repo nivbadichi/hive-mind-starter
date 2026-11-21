@@ -1,0 +1,138 @@
+{
+  "_about": "Numbers and word lists for the one-home check (rule 8). Never a place to switch the check off; its mode is in check.mjs and changes only on your own words. livingExtra lists notes outside the living folders that you want treated as living (none to start with).",
+  "livingFolders": [
+    "system",
+    "projects",
+    "knowledge"
+  ],
+  "livingExtra": [],
+  "historyFolders": [
+    "log"
+  ],
+  "neverRead": [
+    "archive",
+    "me",
+    "starter",
+    "app",
+    "node_modules",
+    ".git",
+    ".claude",
+    "brief",
+    "ledger",
+    "inbox",
+    "generated",
+    "concepts"
+  ],
+  "historyFiles": [
+    "system/decisions.md",
+    "system/lessons.md",
+    "system/dead-phrases.md",
+    "system/catalogue.md"
+  ],
+  "pointerPrefixes": [
+    "system/",
+    "knowledge/",
+    "projects/",
+    "core/",
+    "starter/",
+    "docs/"
+  ],
+  "plannedWords": "\\b(new|will|to be (written|made|built)|owed|planned|not yet|not written|needs its own|to write|proposed|removed|retired|deleted|gone|was|were|moved|renamed|would|could|if)\\b|\\(new\\)",
+  "missingWords": "\\b(does not exist|doesn't exist|not written yet|not yet written|is missing|still missing|not made yet|not yet made|not built yet|not yet built|is not there)\\b",
+  "labelStopWords": [
+    "the",
+    "a",
+    "an",
+    "its",
+    "it",
+    "and",
+    "all",
+    "only",
+    "still",
+    "says",
+    "say",
+    "was",
+    "is",
+    "are",
+    "were",
+    "run",
+    "listed",
+    "passed",
+    "pass",
+    "passes",
+    "scored",
+    "gave",
+    "have",
+    "has",
+    "stopped",
+    "off",
+    "in",
+    "at",
+    "on",
+    "of",
+    "to",
+    "main",
+    "checks",
+    "now",
+    "with",
+    "tests",
+    "test",
+    "count",
+    "score",
+    "step",
+    "roadmap",
+    "then",
+    "today",
+    "tonight",
+    "both"
+  ],
+  "facts": [
+    {
+      "id": "gate-tests",
+      "about": "how many gate tests pass",
+      "pattern": "\\bgates? (?:tests? )?(\\d[\\d,]*) of (\\d[\\d,]*)\\b"
+    },
+    {
+      "id": "rules-count",
+      "about": "how many always-rules there are",
+      "pattern": "\\b(\\d+) (?:always-)?rules\\b"
+    },
+    {
+      "id": "skill-folders",
+      "about": "how many skill folders are installed",
+      "pattern": "\\b(\\d+) skill folders\\b"
+    },
+    {
+      "id": "in-flight-size",
+      "about": "how long the in-flight note is, against its limit",
+      "pattern": "in-flight note[^.\\n]{0,60}?\\b(\\d[\\d,]*) of (\\d[\\d,]*) characters"
+    },
+    {
+      "id": "lessons-open",
+      "about": "how many lessons are not closed",
+      "pattern": "\\b(\\d+) of (\\d+) lessons\\b"
+    },
+    {
+      "id": "questions-before-publishing",
+      "about": "how many questions wait for you before publishing",
+      "pattern": "\\b(\\d+) (?:questions )?before[- ]publishing\\b"
+    }
+  ],
+  "states": [
+    {
+      "id": "publish-hold",
+      "about": "whether the publish hold is on",
+      "on": "\\b(hold is on|a hold is on|on hold on purpose)\\b",
+      "off": "\\b(hold (is|was) lifted|hold is off|lift(ed)? the hold\\b.*\\bdone)\\b"
+    }
+  ],
+  "homes": {
+    "_about": "A truth that has one fixed home: a save that writes it into any other living note is refused, naming the home. One is named today (how many rules there are); you name more in one sentence.",
+    "rules-count": "system/rules.md"
+  },
+  "stampWords": "^(?:last updated|updated)\\s*:\\s*(20\\d\\d-\\d\\d-\\d\\d)",
+  "reviewWords": "\\b(?:review[ _-]by|recheck[ _-]by|review[ _-]on|check again (?:on|by))\\s*:?\\s*(20\\d\\d-\\d\\d-\\d\\d)",
+  "noteEndings": [
+    ".md"
+  ]
+}

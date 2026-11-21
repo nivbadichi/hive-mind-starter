@@ -1,0 +1,370 @@
+{
+  "_about": "Hive Mind gates: the numbers and word lists the gates use. Since 2026-11-20 the self guard refuses Claude the off switch, and any change here that makes a check softer, unless the person's own latest message asks for it. Change a value and save; every gate reads this file at every call. To switch every gate off, create the empty file ~/.claude/hive/gates-off (or set enabled to false here).",
+  "enabled": true,
+
+  "reply": {
+    "_about": "The reply check (a Stop hook), a discipline check for rules 5, 6, 7, 11, 13 and 14. mode \"notice\" (default since 2026-11-19, because a send-back gave you the same reply twice): nothing is sent back; the faults of a reply (and of the other reply checks below) are kept and handed to Claude once at your next message, to correct in the next reply. \"refuse\": the old send-back once (you see two replies). \"off\": the form checks do nothing.",
+    "mode": "notice",
+    "maxWords": 150,
+    "minReportWords": 40,
+    "checkFileNames": true,
+    "checkProgressMap": true,
+    "checkUsedLine": true,
+    "longAskWords": ["in detail", "detailed", "full report", "full document", "full list", "full text", "long version", "write it up", "write this up", "explain everything", "everything", "step by step", "show me all", "show me every", "#long"],
+    "techAskWords": ["path", "paths", "file", "files", "filename", "code", "command", "script", "log", "diff", "error", "stack trace", "json", "#tech"]
+  },
+
+  "_plainSpeech": "The plain-speech rule (rule 6): talk like a person. Whole sentences and everyday words, say why, no labels and no inside words without their meaning. The reminder line below carries it at every one of your messages (\"talk like a friend\").",
+
+  "reminder": "Hive rules: talk like a friend: whole sentences, plain words, say why. Name things by what they are for them; give a needed word half a sentence of meaning. Under 150 words, no file names or code. Progress as a sitrep. Used: line after design work. Design first needs direction, taste, hive-scout.",
+  "_reminderEvery": "The reminder line goes with the first message of a chat, the first one after the chat was shortened, and then every reminderEvery messages (1: every message). It is not a safety step: the rules are in the start message, and a reply's faults are still handed over at the next message. Said once, it saves its words in every other message.",
+  "reminderEvery": 10,
+
+  "questions": {
+    "_about": "Questions for the person (a SAFETY step, \"on\" or \"off\"; switched off only by their words in the chat). The list and its program (program, with system/questions.json); the commands are named here so a change of name is a one-word change. (1) After a helper finishes (the Agent result's content, a SubagentHandback's message, or SubagentStop's last words when nothing was handed over) the report goes to the program's ingest on stdin, with --from <helper>; each report once. (2) At each of their messages the program's lineArgs output goes, word for word, at the top of what Claude is told, after say. Nothing they write switches it off; only their answer, written to the list, takes a question off. (3) listArgs gives the open questions (JSON, or one per line): a sitrep whose Needs you: says nothing while one is open is noted. A missing program is logged (questions-missing) and nothing else happens; the program's own error is logged as error and never holds work up. The after-tool hook must watch Agent and SubagentHandback, and a SubagentStop hook must run gates.mjs subagentstop, for (1) to happen.",
+    "mode": "on",
+    "program": "core/engine/questions.mjs",
+    "ingest": ["ingest"],
+    "lineArgs": ["line"],
+    "listArgs": ["list", "--open", "--json"],
+    "timeoutMs": 1500,
+    "maxOpen": 8,
+    "say": "Ask these now, before anything else in your reply:"
+  },
+
+  "decidedFor": {
+    "_about": "Decided for them (a reply check, notice). One sentence holds one of decidedWords and a word of one of kinds: Claude tells the person something only they decide was already decided. Narrow on purpose.",
+    "mode": "notice",
+    "decidedWords": ["i decided", "i've decided", "i have decided", "i went ahead and", "i chose to", "i've chosen to", "i settled on", "already decided", "i assumed you meant", "i took it that you meant", "i guessed", "i parked", "i've parked", "parked it", "parked them"],
+    "kinds": [
+      { "name": "reversing what they said", "words": ["instead of what you", "reversed", "reverse", "undid", "overrode", "went against"] },
+      { "name": "changing what strangers read", "words": ["public", "the site", "website", "front page", "home page", "published", "publish", "live page", "headline", "tagline"] },
+      { "name": "spending", "words": ["paid", "pay", "bought", "buy", "spent", "spend", "subscription", "credits"] },
+      { "name": "deleting", "words": ["deleted", "delete", "removed", "remove", "wiped", "erased"] },
+      { "name": "guessing what they meant", "words": ["you meant", "what you meant", "guessed", "assumed"] },
+      { "name": "holding a question back", "words": ["question", "questions", "for the end", "until the end"] }
+    ]
+  },
+
+  "sitrep": {
+    "_about": "The sitrep (\"on\" or \"off\", a discipline check at the end of a reply). A reply is a sitrep when the person's message holds one of askWords, or when it has the sitrep's shape: a line starting with one of needsWords and a colon, and at least one line \"<thing>: <one of stateWords>\". A sitrep's lines are the progress map (rule 11); it needs no Used: line and no model line. It is noted when it is longer than maxWords (the sitrep lines and one sentence after them; further sentences are free up to extraWords when they ask a question or name one of faultWords), when it names who did the work (helperWords), models, test counts, file names or skill names, or when the person asked for one and the reply is not in the shape. Never sent back, in any reply mode: the note comes once, at their next message. An asked-for sitrep is not held to the done-without-proof check (it reads the states from the notes).",
+    "mode": "on",
+    "maxWords": 120,
+    "extraWords": 60,
+    "askWords": ["sitrep", "sit rep", "sit-rep", "status?", "what's the status", "what is the status", "status update", "where are we", "where do we stand", "how far along", "what's left", "what is left"],
+    "stateWords": ["done", "finished", "chosen", "ready", "being worked on", "in work", "in progress", "under way", "being built", "being checked", "being tested", "not started", "not yet", "stuck", "blocked", "waiting", "paused", "not checked"],
+    "needsWords": ["needs you", "waiting on you", "waiting for you"],
+    "faultWords": ["broke", "broken", "failed", "fails", "fault", "problem", "error", "risk", "danger", "stuck", "lost"],
+    "helperWords": ["helper", "helpers", "subagent", "subagents", "sub-agent", "sub-agents", "agent", "agents", "the lead", "the checker", "the fixer", "reviewer", "worktree"]
+  },
+
+  "plainWords": {
+    "_about": "Inside words (rule 6, a reply check; \"off\", \"notice\" or \"refuse\"). A reply to the person that uses a word of the list (or, with skillNames, the name of an installed skill with a hyphen) is noted, unless they used the word in their own message, the reply says what it means right after it (one of explainMarks follows the word: \"a hook (a small program ...)\", \"the helper, a second Claude ...\"), or the plain words given for it appear in the reply. The note gives the plain words, at most maxNamed of them. To add a word: one pair \"the word\": \"the plain words to say instead\" in words (no semicolons in the plain words). Map, Used: and Saved: lines are not read.",
+    "mode": "notice",
+    "maxNamed": 4,
+    "skillNames": true,
+    "explainMarks": ["(", " (", " means", " meaning", " that is", " i.e.", " which is", " which are", " is what", " stands for", " is a ", " is an ", " is the ", " are the ", ", a ", ", an ", ", the ", " - ", " – ", " — ", ": "],
+    "words": {
+      "helper": "another Claude doing one part of the job",
+      "sub-agent": "another Claude doing one part of the job",
+      "subagent": "another Claude doing one part of the job",
+      "agent": "another Claude doing one part of the job",
+      "the lead": "the Claude running the whole job",
+      "the checker": "the Claude that tries the finished work as you would",
+      "the fixer": "the Claude that fixes what the check found",
+      "gate": "an automatic check that holds Claude to your rules",
+      "hook": "a small program that runs by itself at set moments",
+      "worktree": "a separate working copy of the notes",
+      "branch": "a separate line of changes, kept apart until joined",
+      "merge": "joining two sets of changes into one",
+      "commit": "a saved version of the files",
+      "push": "sending the saved version to your private copy",
+      "pull request": "a proposed change waiting to be joined",
+      "deploy": "putting the site online",
+      "the build": "the finished version made from the code",
+      "a build": "a finished version made from the code",
+      "repo": "the folder of files kept online",
+      "repository": "the folder of files kept online",
+      "fork": "a linked copy of someone's files on GitHub",
+      "git": "the program that saves your notes and sends them to your private copy",
+      "registry": "the list of skills, connectors and rules Hive Mind knows",
+      "snapshot": "a saved picture of the data at one moment",
+      "plugin": "a ready-made package that adds abilities to Claude",
+      "marketplace": "a list Claude can add ready-made packages from",
+      "mcp": "a connector to another service",
+      "connector": "a connection between Claude and another service",
+      "publish hold": "the stop that keeps anything from going online until you say go",
+      "wave": "one round of work",
+      "ticket": "the written job for one piece of work",
+      "token": "a small piece of text, the unit Claude's use is counted in",
+      "stub": "a placeholder that stands in for the real thing",
+      "wrapper": "the frame the page is shown inside",
+      "runtime": "the program the page or script runs in",
+      "config": "the settings file",
+      "compaction": "shortening the chat so it can go on",
+      "frontmatter": "the few header lines at the top of a note",
+      "terminal": "a window where commands are typed",
+      "permission mode": "how much Claude may do before asking you",
+      "installer": "the small program that puts the parts in place",
+      "winget": "Windows' own program for installing other programs"
+    }
+  },
+
+  "design": {
+    "_about": "The design gate. A project names its direction note with the line design_direction: in the header of its state note. Paths there are inside the notebook.",
+    "stagesThatNeedDirection": ["design", "build"],
+    "defaultTasteNotes": ["me/taste.md"],
+    "scoutSkill": "hive-scout",
+    "extensions": [".tsx", ".jsx", ".css", ".scss", ".sass", ".less", ".html", ".htm", ".vue", ".svelte", ".astro", ".svg"],
+    "skipFolders": ["node_modules", ".next", "dist", "build", "out", ".git", ".vercel", "coverage", ".turbo"],
+    "figmaWriteTools": ["use_figma", "send_code_to_figma", "generate_diagram", "create_new_file", "upload_assets", "create_shader", "update_shader", "generate_image", "generate_vector_illustration", "create_generative_plugin", "update_generative_plugin", "add_code_connect_map", "send_code_connect_mappings"]
+  },
+
+  "helpers": {
+    "_about": "The helper-prompt gate (Agent tool). These helper types only search or read and are let through without the brief lines. alsoKnownSkills: skill names that count in a Skills line although they are not folders in ~/.claude/skills (built-in skills); add your own.",
+    "readOnlyAgents": ["Explore", "web-fetch", "claude-code-guide"],
+    "readOnlyMarker": "Mode: read-only",
+    "alsoKnownSkills": ["update-config", "simplify", "code-review", "security-review", "run", "init", "loop", "schedule", "fewer-permission-prompts", "keybindings-help", "plugin-authoring", "claude-api", "dataviz", "artifact-design", "artifact-capabilities", "artifact-diagramming"],
+    "ownerOnly": {
+      "_about": "Skills only the person may start: any skill whose SKILL.md says disable-model-invocation: true, and the names listed in skills. A helper brief whose skills lines name one is flagged (notice) or refused (refuse).",
+      "mode": "notice",
+      "skills": []
+    }
+  },
+
+  "intake": {
+    "_about": "The front door. When a message carries a link or an attached file, Claude is reminded to log it in the list of what you send, and a reply is sent back once while it is missing from that list. ignoreHosts: addresses that are never material (your own sites, the tools you work in).",
+    "enabled": true,
+    "list": "inbox/sources.md",
+    "skill": "hive-intake",
+    "maxItems": 12,
+    "ignoreHosts": ["localhost", "127.0.0.1", "claude.ai"]
+  },
+
+  "_modes": "Each check below has a mode: \"off\" (does nothing), \"notice\" (never stops anything: it writes a line in the gates log and adds a short reminder for Claude; for the reply checks it only logs) or \"refuse\" (stops the step, or sends the reply back once). The checks that only add a line take \"on\" or \"off\".",
+
+  "refresh": {
+    "_about": "Mid-chat refresh (at your messages). At most once every everySeconds per notebook: a quick git fetch (fetchTimeoutMs), a fast-forward when GitHub is ahead and no tracked file has unsaved changes, then one line naming up to maxNames notes another chat changed. Never runs in the cloud (HIVE_CLOUD=1) or without git.",
+    "mode": "on",
+    "everySeconds": 120,
+    "fetchTimeoutMs": 4000,
+    "budgetMs": 8000,
+    "maxNames": 5
+  },
+
+  "stage": {
+    "_about": "Stage gate (rule 4). Writing or editing a code file of a project whose stage comes before build, or whose state header has no plan_approved: line. A stage: line must start with one of the words. Notes (.md) and the notebook's note folders are never checked.",
+    "mode": "notice",
+    "words": ["discover", "define", "plan", "design", "build", "verify", "release", "maintain", "close", "paused", "not set up"],
+    "beforeBuild": ["discover", "define", "plan", "design", "not set up"],
+    "codeExtensions": [".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx", ".py", ".ps1", ".psm1", ".sh", ".css", ".scss", ".html", ".htm", ".vue", ".svelte", ".astro", ".swift", ".kt", ".java", ".c", ".cpp", ".h", ".cs", ".go", ".rs", ".rb", ".php", ".sql"],
+    "notesFolders": ["projects", "me", "inbox", "knowledge", "log", "ledger", "archive"]
+  },
+
+  "model": {
+    "_about": "Helper model (rule 12). A helper launch must name its model: the tool's model setting, or a line starting \"Model:\" in the prompt. Read-only helpers (the list above, or the read-only line) and forks (they always run on the lead's model) are let through. allowed: the models helpers may run on, their policy; a helper that names another model is refused. An empty list allows any.",
+    "mode": "refuse",
+    "exemptAgents": ["fork"],
+    "allowed": []
+  },
+  "modelFor": {
+    "planning and review": "opus (the strongest)",
+    "building with judgment": "sonnet (the middle one)",
+    "search, counting, moving, formatting": "haiku (the smallest)"
+  },
+
+  "correction": {
+    "_about": "Correction detector (rule 7). When your message holds one of these phrases, a line goes to corrections.log in the Hive folder and Claude is told to fix it and make it a check.",
+    "mode": "on",
+    "log": "corrections.log",
+    "words": ["for the last time", "i told you", "i already said", "i already told you", "again?", "why aren't you", "why are you not", "why didn't you", "why did you not", "stop doing", "how many times", "i've said", "i said this before"]
+  },
+
+  "preference": {
+    "_about": "Saved-preference check (rule 7, a reply check). Their message states a standing wish and nothing was written in this turn to one of saveTargets (paths inside the notebook; a folder ends with /).",
+    "mode": "notice",
+    "words": ["always", "never", "from now on", "i prefer", "i want you to", "i'd rather", "i would rather", "every time", "each time", "make sure you", "remember that", "don't ever", "do not ever"],
+    "saveTargets": ["me/", "system/rules.md", "system/decisions.md", "system/decisions-in-force.md", "system/registry.json"]
+  },
+
+  "usedCheck": {
+    "_about": "Skills really loaded (rule 14, a reply check). Every Skill call is recorded for the chat; a skill named on a Used: line that was never loaded is logged as used-mismatch. ignoreWords are never read as skill names.",
+    "mode": "notice",
+    "ignoreWords": ["run", "init", "loop", "schedule", "none", "skill", "skills"]
+  },
+
+  "proof": {
+    "_about": "\"Done\" without proof (rule 5, a reply check). The reply claims one of claimWords and no shell command with one of checkWords passed in this turn.",
+    "mode": "notice",
+    "claimWords": ["done", "fixed", "works", "working now", "passes", "passing", "passed", "published", "all green", "is live", "shipped"],
+    "checkWords": ["test", "tests", "spec", "build", "check", "lint", "tsc", "vitest", "jest", "pytest", "playwright", "eslint", "typecheck", "verify", "--test"]
+  },
+
+  "yes": {
+    "_about": "The yes gate (rules 1 and 2, a SAFETY check; \"refuse\" since 2026-11-20). Publishing (every route the publish check can read: publishWords), a force-push, an install (actions, plus a program fetched and run at once, npx of a version, claude mcp add, a plugin install: installWords), a delete outside the temporary folders or deleteAllowFolders (deleteWords; also git rm, a delete inside node -e or python -c, a move into a temporary folder, a path held in a variable) and a paid tool (paidTools, paidWords) are refused unless the person's latest own message names the act, or is a bare yes (yesWords, at most bareMaxWords words, none of holdWords, no question mark) to Claude's last reply that named it. A negation in the three words before the act (negations) or a not-yet (notYetWords) is no yes. A helper chat's prompts are never their yes. A plain git push of the notebook is not gated (approved standing); a bare npm install only restores the listed packages and is not gated.",
+    "mode": "refuse",
+    "yesWords": ["yes", "yep", "yeah", "go ahead", "do it", "approved", "approve", "ok", "okay", "sure", "confirm", "confirmed"],
+    "bareMaxWords": 8,
+    "fillerWords": ["please", "thanks", "thank", "you", "go", "ahead", "it", "that", "this", "now", "then", "fine", "great", "good", "alright", "all", "right", "do", "absolutely", "definitely", "of", "course", "yes"],
+    "holdWords": ["but", "first", "wait", "not", "no", "later", "before", "after", "if", "unless", "only", "except", "tomorrow", "stop", "hold", "don't", "dont", "never"],
+    "notYetWords": ["but first", "wait", "not yet", "hold on", "hold off", "before you", "later", "tomorrow", "not now", "first tell me", "first show me", "first check"],
+    "negations": ["not", "don't", "dont", "never", "without", "doesn't", "won't", "nothing", "nor", "stop", "avoid", "cannot", "can't"],
+    "publishWords": ["deploy", "publish", "production", "prod", "go live", "live", "release", "preview"],
+    "installWords": ["install", "add the package", "add the skill", "add the connector", "add the server", "connect"],
+    "actions": [
+      { "name": "force-push to GitHub (it can overwrite work there)", "pattern": "\\bgit\\b.*\\bpush\\b.*(\\s--force\\b|\\s-f\\b|--force-with-lease|\\s\\+[\\w/.-]+)", "words": ["force push", "force-push", "push --force", "push -f"] },
+      { "name": "install a package or a skill", "pattern": "\\b(npm|pnpm)\\s+(i|install|add)\\b(\\s+-\\S+)*\\s+[^-\\s]|\\byarn\\s+(global\\s+)?add\\b|\\bnpx\\s+skills\\s+add\\b|\\bpip3?\\s+install\\b|\\bpy(thon3?)?\\s+-m\\s+pip\\s+install\\b|\\b(winget|choco|brew)\\s+install\\b", "words": ["install", "add the package", "add the skill"] },
+      { "name": "save or send without the privacy check (--no-verify)", "pattern": "\\bgit\\b.*\\b(commit|push|merge|rebase|am|cherry-pick)\\b.*\\s--no-verify\\b|\\bgit\\b.*\\bcommit\\b.*\\s-[a-zA-Z]*n[a-zA-Z]*\\b", "words": ["no-verify", "skip the check", "skip the checks", "without the check", "without the checks"] }
+    ],
+    "deleteWords": ["delete", "remove", "clean", "wipe", "erase", "empty"],
+    "deleteAllowFolders": ["node_modules", ".next", "dist", ".turbo", "coverage", ".playwright-cli", ".playwright-mcp", "playwright-report", "test-results"],
+    "ownCleanup": { "_about": "A delete needs no yes when the file (or a folder above it) was created in this same chat by a step the gates saw, and git does not know it (it was never saved in the notebook): a part cleaning up its own scratch files and build leftovers. A note (.md, .txt, or the note folders), a file git knows, one older than the chat, or anything else outside the temporary folders still needs the person's own words naming the act and its object. \"off\" switches this off (stricter).", "mode": "on" },
+    "docker": {
+      "_about": "Docker. The words in the person's own message that name each risky act; the act needs them (or their yes to Claude's question that named it). Building, a run of a known image, compose up, down, run and watch on this computer, and listing need nothing. A push, a build with --push, a compose push and docker login are publishes (publish.patterns).",
+      "remote": ["docker host", "remote docker", "other computer", "docker context"],
+      "privileged": ["privileged"],
+      "host": ["host network", "network host", "pid host", "host's network", "host network mode"],
+      "socket": ["docker socket", "the socket"],
+      "mount": ["mount my home", "mount the home", "mount the drive", "home folder", "whole drive"],
+      "volumes": ["delete the volume", "delete the volumes", "remove the volume", "remove the volumes", "prune", "wipe the volume", "wipe the volumes"],
+      "pull": ["pull", "fetch the image", "download the image", "use the image", "image"]
+    },
+    "paidTools": ["buy_domain", "create_or_transfer_domain"],
+    "paidWords": ["buy", "purchase", "pay", "register", "transfer"],
+    "_second": "2026-11-20 (the second roast): paidPatterns are commands that spend (vercel domains buy, N39); sendTools are connector tools that send on their behalf. A delete, an install, a purchase or a send needs their words to name the act AND its object (a word of the path, the package, the domain, the person); a bare yes counts only for the last question of the reply (N28, N29).",
+    "paidPatterns": ["^vercel\\s+domains?\\s+(buy|transfer-in|renew)\\b", "^vercel\\s+(buy|transfer-in)\\b"],
+    "sendTools": ["send_message", "send_email", "send_mail", "reply", "forward", "create_event", "respond_to_event", "post_message", "chat_post_message", "slack_send_message", "add_issue_comment", "add_reply_to_pull_request_comment", "reply_to_board_thread", "start_board_thread", "reply-to-comment", "comment-on-design"],
+    "sendWords": ["send", "email", "e-mail", "mail", "reply", "answer", "forward", "post", "invite", "message", "comment"]
+  },
+
+  "selfGuard": {
+    "_about": "The self guard (2026-11-20, a SAFETY check): Claude cannot switch off or soften its own gates. Refused unless the person's latest own message asks (or is a bare yes to Claude's question about it): creating the off switch (offWords); a change to this file that lowers a mode, sets enabled to false, takes an entry out of a safety list or adds one to an allow list (weakenWords; a shell write to this file is always treated as softening, use the Edit tool); a check module's settings.json that lowers its mode; writing, moving or deleting the installed gates, the Hive folder's config.json, Claude's own settings files (hooksSettings: they hold the hooks and disableAllHooks) or running the gates' install or uninstall (installWords). Deleting the off switch (switching the gates on) is always allowed.",
+    "mode": "refuse",
+    "offWords": ["gates off", "switch off the gates", "switch the gates off", "turn off the gates", "turn the gates off", "disable the gates", "pause the gates", "gates-off"],
+    "weakenWords": ["softer", "soften", "less strict", "loosen", "weaken", "switch off", "turn off", "switch it off", "turn it off", "disable", "to notice", "a notice", "a reminder", "reminder only", "to off", "mode off"],
+    "installWords": ["install the gates", "reinstall", "uninstall", "update the gates", "install them", "hooks", "hook", "claude settings", "settings.json", "permission", "permissions", "update-config", "check module", "check modules", "join the checks", "add the small parts", "undo the hive mind setup", "set up my hive mind"],
+    "hooksSettings": "/\\.claude/settings(\\.local)?\\.json$"
+  },
+
+  "checks": {
+    "_about": "The check modules (core/checks/<id>/, the contract in system/design/enforcement-2026-11-20.md). The gates call their loader, core/checks/_lib/hook.mjs, at every step after their own checks, as core/checks/README.md says (\"How the gates call it\"); the loader keeps the modes, the time limits and the debts in its own settings (core/checks/_lib/settings.json). No loader: nothing changes, logged once per chat (checks-missing). folder: where the modules are; the self guard watches it.",
+    "folder": "core/checks"
+  },
+
+  "longChat": {
+    "_about": "Long chat. Once per chat, after a compaction or after maxMessages messages from you, Claude is told to write what lives only in the conversation into the in-flight note and offer a fresh chat.",
+    "mode": "on",
+    "maxMessages": 60
+  },
+
+  "ticket": {
+    "_about": "The proof part (rule 5, the factory's ticket). A helper prompt that is change work (it says \"Write only\" or \"Edit only\", or one sentence holds a change word and a thing changed) must carry the part named by heading, with each of parts filled in. Read-only helpers are let through. \"notice\" warns; \"refuse\" stops the launch.",
+    "mode": "notice",
+    "heading": "How it will be proven",
+    "parts": ["Today", "Steps", "Must pass", "Files touched"]
+  },
+
+  "_kinds": "Every check is safety or discipline (the hive-gates skill has the table). A discipline check that breaks lets the step through and writes \"error\" in the log. A safety check (publish, yes) that breaks on a step it is about stops that one step; it never stops other work.",
+
+  "quiet": {
+    "_about": "Quiet mode for the reply check (\"on\" or \"off\"). On: the progress map and the Used: line are asked for only when a reply reports finished work (finishedWords) or asks you for a decision (a question with one of decisionWords). The word limit and the file names stay. A reply is never sent back twice.",
+    "mode": "on",
+    "finishedWords": ["done", "finished", "built", "fixed", "shipped", "completed", "is ready", "are ready", "published", "is live", "went live"],
+    "decisionWords": ["should i", "shall i", "do you want", "want me to", "which one", "which do you", "ok to", "okay to", "can i go", "may i", "approve", "go ahead", "pick", "choose", "prefer", "yes or no"]
+  },
+
+  "publish": {
+    "_about": "The publish check (rule 1, a SAFETY check). A command or tool that puts something online is refused while the hold file (in the Hive folder) exists, and refused when it is run as a test (testWords in its description or text) while their last message does not name publishing (askWords). A dry-run flag makes it not a publish. patterns are read against the command's words; vercel is read by the program (a bare vercel, --prod, one of vercelDeploy, or vercel project add). Since 2026-11-20 the check follows the act: another shell, eval, Start-Process, a variable, node -e and python -c, npm/pnpm/yarn scripts from package.json, and script files that are run; while the hold is on, a script written and run in one step, a program named by a variable and any deploy word in a command that is not only reading are refused too. Deleting, emptying, renaming or moving the hold file is refused unless their latest own message asks to lift the hold (liftWords) or is a bare yes to Claude's question naming it (liftReplyWords). tools: connector tool names that deploy (the before-tool hook must watch them).",
+    "mode": "refuse",
+    "holdFile": "publish-hold",
+    "patterns": ["^(npm|pnpm|yarn)\\s+publish\\b", "^netlify\\s+deploy\\b", "^wrangler\\s+(deploy|publish|pages\\s+deploy)\\b", "^firebase\\s+deploy\\b", "^gh\\s+release\\s+create\\b", "^(powershell|pwsh|bash|sh|cmd|start-process)\\b.*\\bpublish(-public|-quiet)?\\.ps1\\b", "^(\\S*[\\\\/])?publish(-public|-quiet)?\\.ps1\\b", "^gh\\s+workflow\\s+run\\b", "^gh\\s+api\\b.*\\/dispatches\\b", "^gh\\s+workflow\\s+enable\\b", "^(docker|podman)\\s+(image\\s+)?push\\b", "^(docker|podman)\\s+(buildx\\s+)?(build|bake)\\b.*\\s--push\\b", "^(docker|podman)\\s+(buildx\\s+)?(build|bake)\\b.*--output[= ][^\\s]*type=registry", "^(docker\\s+compose|docker-compose|podman-compose)\\b.*\\bpush\\b", "^(docker|podman)\\s+login\\b", "^(docker|podman)\\s+(manifest|trust)\\s+(push|sign)\\b"],
+    "_gitPublish": "2026-11-20 (the second roast, N03): while the hold is on, a connector that writes to a repository's default branch is a publish (a host that builds on push puts it online). A plain git push of the notebook stays a standing approval.",
+    "gitPublishTools": ["push_files", "create_or_update_file", "delete_file", "merge_pull_request"],
+    "defaultBranches": ["main", "master", "gh-pages", "production", "prod", "live", "release"],
+    "vercelDeploy": ["deploy", "promote", "redeploy", "rollback", "alias"],
+    "vercelQuiet": ["env", "ls", "list", "link", "logs", "inspect", "whoami", "login", "logout", "pull", "dev", "build", "domains", "dns", "certs", "project", "projects", "teams", "switch", "help", "init", "git", "integration", "bisect", "remove", "rm", "curl", "httpstat", "cache", "blob", "telemetry", "open", "target", "microfrontends", "mcp", "install", "guidance"],
+    "tools": ["create_deployment", "request_promote", "deploy_to_vercel", "promote_deployment", "theme_publish", "publish-digital-product", "request_rollback", "assign_alias", "start_rolling_release", "approve_rolling_release_stage", "complete_rolling_release", "publish-brand-template"],
+    "liftWords": ["lift the hold", "remove the hold", "delete the hold", "end the hold", "drop the hold", "clear the hold", "release the hold", "take the hold off", "take off the hold", "lift the publish hold", "remove the publish hold", "delete the publish hold"],
+    "liftReplyWords": ["hold"],
+    "testWords": ["test", "testing", "as a test", "try", "trying", "trial", "dry run", "smoke", "probe", "experiment", "see if", "see whether", "sanity"],
+    "dryRunFlags": ["--dry-run", "--dryrun", "-whatif", "-dryrun"],
+    "askWords": ["publish", "deploy", "go live", "live", "production", "prod", "online", "release"]
+  },
+
+  "asked": {
+    "_about": "Asked again (rule 7, a reply check). The reply asks you a question about one of the topics, and system/decisions.md has a row dated today that speaks to the same topic. Narrow on purpose: add a topic only when a program can tell it.",
+    "mode": "notice",
+    "decisions": "system/decisions.md",
+    "topics": [
+      { "name": "publishing or going live", "ask": ["publish", "go live", "going live", "put it online", "deploy", "make it live", "push it live"], "decided": ["publish", "published", "go live", "go-live", "deploy", "online"] },
+      { "name": "installing", "ask": ["install", "installing", "installation"], "decided": ["install", "installs", "installation", "installations"] }
+    ],
+    "sameChoice": {
+      "_about": "A decision answers the question only when it settles the same choice (2026-11-20): the question's own words besides the topic's and these small words are its choice; with fewer than minChoiceWords the topic is the choice, else the decision holds at least minShared of them and minShare of all.",
+      "minChoiceWords": 2, "minShared": 2, "minShare": 0.5,
+      "stopWords": ["should", "would", "could", "shall", "which", "what", "these", "those", "this", "that", "there", "their", "them", "they", "then", "than", "with", "from", "into", "your", "yours", "have", "make", "want", "like", "best", "also", "only", "just", "more", "most", "some", "each", "every", "here", "when", "where", "will", "does", "done", "okay", "next", "first", "today", "please", "think", "prefer", "choose", "pick", "between", "about", "using", "show", "look", "need", "ones", "one", "three", "four", "five", "other", "another", "again", "still", "right", "ready", "now", "go ahead", "yes", "keep", "site", "page", "it's", "isn't", "you'd", "we'll"]
+    }
+  },
+
+  "savedLine": {
+    "_about": "The Saved: line (rule 7, a reply check). This chat wrote to one of targets in this turn (a helper's writes do not count), or the reply says it saved (claimWords), and no line starts with \"Saved:\".",
+    "mode": "notice",
+    "targets": ["me/", "system/rules.md", "system/decisions.md", "system/decisions-in-force.md", "system/lessons.md", "system/preferences.md", "system/registry.json"],
+    "claimWords": ["i saved", "i've saved", "i have saved", "saved it", "saved this", "saved that", "i noted", "i've noted", "noted it", "wrote it down", "written down", "i recorded", "added it to the notes", "added it to the rules", "added it to the decisions"]
+  },
+
+  "modelLine": {
+    "_about": "Which model did the work (rule 12, a reply check). The chat started helpers (each launch is written down with its model), the reply tells what helpers did (helperWords and reportWords), and it names no model (modelWords).",
+    "mode": "notice",
+    "helperWords": ["helper", "helpers", "subagent", "subagents", "sub-agent", "reviewer", "checker", "scout"],
+    "reportWords": ["reported", "found", "finished", "came back", "built", "wrote", "reviewed", "checked", "made", "did", "fixed"],
+    "modelWords": ["opus", "sonnet", "haiku", "fable", "strongest model", "middle model", "smallest model", "the strongest", "the middle one", "the smallest"]
+  },
+
+  "reviewFirst": {
+    "_about": "Review before a verdict (rule 10, a reply check). One sentence holds a verdict word and the name of an outside tool (registry entries whose review is \"needed\" or whose source is third-party, plus alsoNames), and no note in the reviews folder names that tool. A sentence that says it is not reviewed passes.",
+    "mode": "notice",
+    "reviews": "system/reviews",
+    "alsoNames": [],
+    "verdictWords": ["recommend", "i recommend", "i'd use", "i would use", "i'd pick", "i would pick", "go with", "worth it", "worth using", "worth installing", "safe to use", "safe to install", "is safe", "is good", "is great", "is solid", "is better", "better than", "the best", "best choice", "should use", "should install", "do not use", "don't use", "avoid it", "verdict"],
+    "hedgeWords": ["not reviewed", "no review", "review first", "after the review", "once reviewed", "before the review"]
+  },
+
+  "fit": {
+    "_about": "The match between the work and what exists (rule 14). node core/gates/gates.mjs fit <words> prints the kinds of work, the skills to always load, the other skills, connectors and protocols that fit, from the registry. At your message, for a kind in announce whose always skills are not loaded yet, one line names them. Keep always short: it is what a turn of that kind must load; build has none on purpose (the proof checks hold it).",
+    "mode": "on",
+    "registry": "system/registry.json",
+    "announce": ["design", "motion"],
+    "maxSkills": 8,
+    "maxConnectors": 5,
+    "kinds": {
+      "design": ["design", "redesign", "screen", "screens", "page", "pages", "layout", "hero", "landing", "ui", "interface", "wireframe", "prototype", "restyle", "css", "component", "website", "site"],
+      "build": ["build", "implement", "code", "fix", "bug", "script", "feature", "refactor", "gate", "hook", "program", "function"],
+      "motion": ["animate", "animation", "animations", "motion", "transition", "gsap", "scroll effect"],
+      "research": ["research", "compare", "look up", "precedent", "precedents", "scout", "find out"],
+      "documents": ["document", "pdf", "deck", "slides", "spreadsheet", "word file", "report"],
+      "data": ["chart", "charts", "dashboard", "data", "analysis", "metrics"]
+    },
+    "categories": { "build": "coding" },
+    "always": { "design": ["hive-scout", "impeccable"], "motion": ["animate"] },
+    "connectors": { "design": ["figma", "canva", "built-in-browser", "playwright", "shadcn-ui-components"], "build": ["github", "playwright", "vercel"], "research": ["chrome", "built-in-browser"], "documents": ["google-docs-sheets-and-slides", "drive"], "motion": ["built-in-browser", "playwright"] },
+    "protocols": { "design": ["rule-4", "rule-13", "rule-14"], "build": ["rule-4", "rule-5", "rule-14", "rule-15"], "motion": ["rule-13", "rule-14"], "research": ["rule-3", "rule-10"], "all": ["rule-12"] }
+  },
+
+  "skillsFit": {
+    "_about": "The always skills were loaded (rule 14, a reply check). The turn wrote interface files (design work; with a motion word in your message, motion work too) and a skill that fit.always names for that kind was never loaded in this chat or its helpers.",
+    "mode": "notice"
+  },
+
+  "handout": {
+    "_about": "Handing out (core/engine/handout.mjs, and the gates since 2026-11-20). maxAtOnce: the top number of helpers that run at once; the gates refuse a helper launch beyond it (mode). A helper counts from its launch until it reports back (the after-tool step of the Agent tool, the hand-back, or the step when a helper stops); one that has not reported for staleMinutes no longer counts. handout.mjs also refuses one whose files touched overlap a running helper's.",
+    "mode": "refuse",
+    "maxAtOnce": 6,
+    "staleMinutes": 120
+  },
+
+  "health": {
+    "_about": "The health check shows NEEDS YOU when the gates stopped or sent back more than this many times in the last 7 days.",
+    "maxMissesPerWeek": 20
+  }
+}

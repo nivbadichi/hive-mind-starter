@@ -1,0 +1,27 @@
+{
+  "_about": "Use what fits (rule 14). The kinds of work, the skills that are always loaded for each kind, the connectors and the protocols are NOT kept here: they are read from fitFrom (the gates' settings, key fit) so they have one home. This file keeps only this check's own numbers and word lists.",
+  "fitFrom": "core/gates/settings.json",
+  "registry": "system/registry.json",
+  "sayKinds": ["design", "build", "motion"],
+  "wordKinds": ["motion"],
+  "oneOf": { "build": ["simplify", "code-review", "security-review", "engineering:testing-strategy", "engineering:debug", "engineering:code-review", "engineering:system-design"] },
+  "_oneOf": "The ruling of 2026-11-21 (\"On for everyone\"): writing or editing a program file, or a screen file in codeAlso, waits until this chat loaded at least one of these coding skills. Each is free and in the registry (system/registry.json says where it comes from): simplify, code-review and security-review come built into Claude Code, so every person has them, and every starting package names simplify; the engineering ones come with Anthropic's engineering plugin (knowledge-work-plugins), which the builder package installs on the person's yes. Notes, data (.json and the like) and built folders are never code.",
+  "oneOfLabel": { "build": "coding skill" },
+  "codeAlso": [".tsx", ".jsx", ".css", ".scss", ".sass", ".less", ".html", ".htm", ".vue", ".svelte", ".astro"],
+  "suggest": {
+    "default": ["simplify", "code-review"],
+    ".ps1": ["security-review", "simplify"],
+    ".sh": ["security-review", "simplify"]
+  },
+  "_suggest": "The skills a refusal names: only ones built into Claude Code, so every person has what they are told to load.",
+  "maxSkills": 6,
+  "maxConnectors": 5,
+  "interfaceExtensions": [".tsx", ".jsx", ".css", ".scss", ".sass", ".less", ".html", ".htm", ".vue", ".svelte", ".astro", ".svg"],
+  "programExtensions": [".ts", ".js", ".mjs", ".cjs", ".py", ".ps1", ".psm1", ".sh", ".swift", ".kt", ".java", ".c", ".cpp", ".h", ".cs", ".go", ".rs", ".rb", ".php", ".sql"],
+  "skipFolders": ["node_modules", ".next", "dist", "build", "out", ".git", ".vercel", "coverage", ".turbo"],
+  "skipTempDir": true,
+  "tempMarks": ["/tmp/", "/scratchpad/"],
+  "usedIgnoreWords": ["none", "nothing", "skill", "skills", "connector", "connectors", "protocol", "protocols", "rule", "rules", "precedents", "ready", "parts", "because", "run", "init", "loop", "schedule"],
+  "recordFile": "use-what-fits.json",
+  "recordHours": 12
+}

@@ -1,0 +1,22 @@
+{
+  "_about": "Settings of the reviewed-first check (rule 10). Where the reviews are kept, which connectors are part of the app itself, and the few packages that may be run without a review. This file cannot switch the check off: that needs the person's own words in their own message.",
+  "registry": "system/registry.json",
+  "reviews": "system/reviews",
+  "_catalogue": "The connector catalogue. Only its bold verdict lines and its '## Review:' sections are read.",
+  "catalogue": "system/catalogue.md",
+  "ownSkills": "core/skills",
+  "_handSources": "Where a connector's definition came from, as Claude Code gives it (mcp_server.source), for servers written into a settings file by hand. For these the app-name list and the long-id rule below are not trusted: the registry must clear them.",
+  "handSources": ["user", "project", "local"],
+  "_claudeaiIsDirectory": "A connector whose source is 'claudeai' was added in claude.ai, where the directory lives; rule 10 says directory connectors need no review. Set false to make even these need a registry entry.",
+  "claudeaiIsDirectory": true,
+  "_grandfather": "Tools already in use before reviews began (registry state active or installed-unused, with an empty review, from a source other than third-party) count as cleared. A third-party tool never does.",
+  "grandfather": true,
+  "_builtIn": "Connector servers that are part of the Claude app itself, not outside tools. A name ending in * matches every server that starts with it.",
+  "builtIn": ["ccd_*", "Claude_Browser", "Claude_Preview", "claude-in-chrome", "computer-use", "remote-devices", "visualize", "terminal", "scheduled-tasks", "mcp-registry"],
+  "_directoryIds": "Connectors added from the claude.ai directory show up under an id shaped like 00000000-0000-0000-0000-000000000003 (a made-up one); rule 10 says directory connectors are fine. A custom connector added by hand in claude.ai has the same shape, which this check cannot tell apart.",
+  "directoryIds": true,
+  "_trustedRun": "Packages that may be run with npx, dlx, bunx or uvx without a review, because the notebook's own steps run them. Each needs a reason.",
+  "trustedRun": {},
+  "_shellScripts": "Web addresses whose script may be piped into a shell. Empty: piping a downloaded script into a shell is always refused, because no review can see what it will run.",
+  "shellScripts": []
+}

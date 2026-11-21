@@ -1,0 +1,31 @@
+{
+  "_about": "Hive Mind hooks for ~/.claude/settings.json. Merged by core/gates/install.ps1, which replaces __NODE__ with the full path of node.exe and __HIVE__ with the full path of ~/.claude/hive. The start step runs in three parts so no part is cut; the gates run in node because PowerShell is slow to start. Windows blocks scripts by default, so the start step is started with -ExecutionPolicy Bypass (for that run only). The before-tool step runs for every tool (matcher *). The after-tool step also watches the helper tools (Agent, Task, SubagentHandback) and the question card (AskUserQuestion); SubagentStop runs when a helper stops, so a helper's report reaches the list of questions for you; PostToolUseFailure runs the gates when a command or a file write fails.",
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$HOME\\.claude\\hive\\start.ps1\" -Part rules", "shell": "powershell", "timeout": 30 } ] },
+      { "hooks": [ { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$HOME\\.claude\\hive\\start.ps1\" -Part state", "shell": "powershell", "timeout": 30 } ] },
+      { "hooks": [ { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"$HOME\\.claude\\hive\\start.ps1\" -Part flight", "shell": "powershell", "timeout": 30 } ] }
+    ],
+    "PreToolUse": [
+      { "matcher": "*", "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "pretool"], "timeout": 10 } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "Read|Skill|Write|Edit|MultiEdit|NotebookEdit|Bash|PowerShell|Agent|Task|SubagentHandback|AskUserQuestion", "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "posttool"], "timeout": 10 } ] }
+    ],
+    "PostToolUseFailure": [
+      { "matcher": "Bash|PowerShell|Write|Edit|MultiEdit|NotebookEdit", "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "posttoolfailure"], "timeout": 10 } ] }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "prompt"], "timeout": 10 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "stop"], "timeout": 10 } ] }
+    ],
+    "SubagentStop": [
+      { "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "subagentstop"], "timeout": 10 } ] }
+    ],
+    "PreCompact": [
+      { "hooks": [ { "type": "command", "command": "__NODE__", "args": ["__HIVE__/gates/gates.mjs", "precompact"], "timeout": 10 } ] }
+    ]
+  }
+}

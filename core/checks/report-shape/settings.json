@@ -1,0 +1,6 @@
+{
+  "_about": "The report-shape check. parts: the parts of a helper's report that must be there (files, checks, questions, model; the words that count are in core/report-shape/report-shape.mjs). skipAgentTypes: helpers that only search or read and are not briefed with the build brief, so their answers carry no report shape.",
+  "who": "the person",
+  "parts": ["files", "checks", "questions", "model"],
+  "skipAgentTypes": ["Explore", "claude-code-guide", "statusline-setup", "web-fetch"]
+}

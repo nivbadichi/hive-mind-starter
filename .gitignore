@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.swp
+.env
+.playwright-mcp/
+# Your page's data file, written by system/snapshot.mjs. Ignored until the page's code is in app/;
+# remove this line at release if the page needs the file saved.
+app/src/data/snapshot.json

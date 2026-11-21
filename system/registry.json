@@ -1,0 +1,1508 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "anthropic-skills:deep-research",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "research"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "A long, sourced research report on a question. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "app",
+        "note": "It comes with the Claude app. It was not found in a Claude Code plugin catalogue on 2026-11-19, so if Claude Code does not offer it, Claude will tell you plainly."
+      }
+    },
+    {
+      "id": "anthropic-skills:docs",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Write documents you can share, comment on and edit. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "app",
+        "note": "It comes with the Claude app. It was not found in a Claude Code plugin catalogue on 2026-11-19, so if Claude Code does not offer it, Claude will tell you plainly."
+      }
+    },
+    {
+      "id": "anthropic-skills:docx",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Make and change Word files. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "document-skills",
+        "marketplace": "anthropic-agent-skills",
+        "source": "anthropics/skills",
+        "note": "In Claude Code its skills show up as document-skills:docx, document-skills:pdf and so on."
+      }
+    },
+    {
+      "id": "anthropic-skills:morning",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Show a short brief of your day as a page. Comes with the Claude app.",
+      "install": {
+        "type": "app",
+        "note": "It comes with the Claude app. It was not found in a Claude Code plugin catalogue on 2026-11-19, so if Claude Code does not offer it, Claude will tell you plainly."
+      }
+    },
+    {
+      "id": "anthropic-skills:pdf",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Read, fill, merge and make PDF files. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "document-skills",
+        "marketplace": "anthropic-agent-skills",
+        "source": "anthropics/skills",
+        "note": "In Claude Code its skills show up as document-skills:docx, document-skills:pdf and so on."
+      }
+    },
+    {
+      "id": "anthropic-skills:pptx",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Make and change slide decks as PowerPoint files. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "document-skills",
+        "marketplace": "anthropic-agent-skills",
+        "source": "anthropics/skills",
+        "note": "In Claude Code its skills show up as document-skills:docx, document-skills:pdf and so on."
+      }
+    },
+    {
+      "id": "anthropic-skills:xlsx",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Make and change spreadsheets. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "document-skills",
+        "marketplace": "anthropic-agent-skills",
+        "source": "anthropics/skills",
+        "note": "In Claude Code its skills show up as document-skills:docx, document-skills:pdf and so on."
+      }
+    },
+    {
+      "id": "code-review",
+      "kind": "skill",
+      "state": "active",
+      "source": "vendor",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-21",
+      "by": "starting set",
+      "reason": "One of the coding skills that writing code waits for (the ruling of 2026-11-21, \"On for everyone\").",
+      "about": "Review the current changes for bugs. Comes built into Claude Code, if you use that. Not from this folder; nothing was copied here.",
+      "install": {
+        "type": "built-in"
+      }
+    },
+    {
+      "id": "data:analyze",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "data"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Answer a question from data: quick lookups up to a full analysis.",
+      "install": {
+        "type": "plugin",
+        "plugin": "data",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "data:build-dashboard",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "data"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Build a page of charts and numbers you can read at a glance.",
+      "install": {
+        "type": "plugin",
+        "plugin": "data",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "dataviz",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "design",
+        "data"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Draw charts and dashboards that read clearly and look like one system.",
+      "install": {
+        "type": "unconfirmed",
+        "note": "Which plugin catalogue carries it was not found on 2026-11-19. Ask Claude to look it up before you rely on it."
+      }
+    },
+    {
+      "id": "engineering:code-review",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Review code changes for mistakes and risks. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "engineering:debug",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Find why something breaks, step by step. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "engineering:deploy-checklist",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "A check to go through before something is released.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "engineering:documentation",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding",
+        "documents"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Write and keep up technical documentation: guides, runbooks, onboarding pages.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "engineering:system-design",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Design a system, a service or an API, with the trade-offs said out loud.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "engineering:testing-strategy",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Plan which tests prove that something works. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "engineering",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "hive-add",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Add, change or remove a skill, connector, rule (protocol) or preference from one sentence of the person."
+    },
+    {
+      "id": "hive-capture",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Save new rules, decisions and lessons to the Hive Mind notebook the moment they appear."
+    },
+    {
+      "id": "hive-close",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Close a chat properly."
+    },
+    {
+      "id": "hive-compact",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Make a long conversation safe to shorten."
+    },
+    {
+      "id": "hive-doctor",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "general"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Part of Hive Mind",
+      "added": "2026-11-19",
+      "by": "",
+      "reason": ""
+    },
+    {
+      "id": "hive-gates",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "The Hive Mind gates - what each one stops, how to satisfy it, how to switch them off and on, how to change a check's mode, how to read their log."
+    },
+    {
+      "id": "hive-help",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "general"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Part of Hive Mind",
+      "added": "2026-11-19",
+      "by": "",
+      "reason": ""
+    },
+    {
+      "id": "hive-intake",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "research",
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "The front door for everything the user sends to keep - a link, a file, a PDF, a screenshot, a list of sites, a video."
+    },
+    {
+      "id": "hive-project",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Set up a new project from one sentence."
+    },
+    {
+      "id": "hive-radar",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "research",
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Once a week, look outside for new skills, tools, connectors and better ways of working, give each a first safety read, and bring at most three ideas, each waiting for yes, not now or never."
+    },
+    {
+      "id": "hive-review",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "research",
+        "coding"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Review a tool, server or hosted generator that is not an official or directory connector, with a 10-point safety check, and show the findings so the user can de"
+    },
+    {
+      "id": "hive-scout",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "research",
+        "design",
+        "coding"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Scout for the best tools, connectors, components, libraries, templates and design references before a project's plan, review them, and suggest one shortlist."
+    },
+    {
+      "id": "hive-setup",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "The first conversation of a new Hive Mind."
+    },
+    {
+      "id": "hive-sitrep",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "general"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "The status report: only the progress of what you asked for",
+      "added": "2026-11-20",
+      "by": "",
+      "reason": ""
+    },
+    {
+      "id": "hive-start",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Re-run the Hive Mind start at any time."
+    },
+    {
+      "id": "hive-verify",
+      "kind": "skill",
+      "state": "active",
+      "source": "owner",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Prove a change works by walking the real thing as a person would, before and after, and report PASS, FAIL or NOTHING PROVEN."
+    },
+    {
+      "id": "productivity:memory-management",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Keep what Claude should remember about you and your work. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "productivity",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "productivity:task-management",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Keep a task list. Comes with Claude through its plugins, not from this folder. Nothing was copied here; its licence is not recorded in this notebook. Ask Claude to add it, and say yes to the install.",
+      "install": {
+        "type": "plugin",
+        "plugin": "productivity",
+        "marketplace": "knowledge-work-plugins",
+        "source": "anthropics/knowledge-work-plugins"
+      }
+    },
+    {
+      "id": "run",
+      "kind": "skill",
+      "state": "listed-not-installed",
+      "source": "vendor",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Start this project's app and see a change working in it. Comes built into Claude Code.",
+      "install": {
+        "type": "built-in"
+      }
+    },
+    {
+      "id": "security-review",
+      "kind": "skill",
+      "state": "active",
+      "source": "vendor",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Review the pending changes for security problems. Comes built into Claude Code, if you use that. Not from this folder; nothing was copied here.",
+      "install": {
+        "type": "built-in"
+      }
+    },
+    {
+      "id": "simplify",
+      "kind": "skill",
+      "state": "active",
+      "source": "vendor",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Tidy changed code for reuse and clarity. Comes built into Claude Code, if you use that. Not from this folder; nothing was copied here.",
+      "install": {
+        "type": "built-in"
+      }
+    },
+    {
+      "id": "calendar",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Read and plan your calendar. In the Claude connector directory.",
+      "install": {
+        "type": "connector",
+        "directory": "Google Calendar",
+        "link": "https://claude.ai/directory",
+        "note": "You sign in with your own account."
+      }
+    },
+    {
+      "id": "canva",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "design"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Make designs on your brand. In the Claude connector directory (official). Not connected: connect it only when you want it, and say yes first.",
+      "plans": "free to connect; Canva has paid plans of its own; nothing is bought without your yes.",
+      "install": {
+        "type": "connector",
+        "directory": "Canva",
+        "link": "https://claude.ai/directory"
+      }
+    },
+    {
+      "id": "drive",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "organising",
+        "documents"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Find and read your files in Google Drive. In the Claude connector directory.",
+      "install": {
+        "type": "connector",
+        "directory": "Google Drive",
+        "link": "https://claude.ai/directory",
+        "note": "You sign in with your own account."
+      }
+    },
+    {
+      "id": "figma",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "design"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Read design files and components. In the Claude connector directory.",
+      "plans": "free to connect; Figma has paid plans of its own; nothing is bought without your yes.",
+      "install": {
+        "type": "connector",
+        "directory": "Figma",
+        "link": "https://claude.ai/directory"
+      }
+    },
+    {
+      "id": "github",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Read and work with your code repositories.",
+      "install": {
+        "type": "plugin",
+        "plugin": "github",
+        "marketplace": "claude-plugins-official",
+        "source": "auto"
+      }
+    },
+    {
+      "id": "gmail",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "organising"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Read and draft your mail; nothing is sent without your yes. In the Claude connector directory.",
+      "install": {
+        "type": "connector",
+        "directory": "Gmail",
+        "link": "https://claude.ai/directory",
+        "note": "You sign in with your own account."
+      }
+    },
+    {
+      "id": "playwright",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "coding",
+        "design"
+      ],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Open a page in a real browser to check that it works. A Claude plugin, not from this folder. Ask Claude to add it, and say yes first.",
+      "install": {
+        "type": "plugin",
+        "plugin": "playwright",
+        "marketplace": "claude-plugins-official",
+        "source": "auto",
+        "note": "Claude Code adds this catalogue by itself the first time it starts."
+      }
+    },
+    {
+      "id": "shopify",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "business"
+      ],
+      "model": "",
+      "review": "needed",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Run a Shopify shop: products, orders, stock.",
+      "install": {
+        "type": "connector",
+        "directory": "Shopify",
+        "link": "https://claude.ai/directory",
+        "note": "Safety review still needed before it is connected."
+      }
+    },
+    {
+      "id": "stripe",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "plugin",
+      "fits": [
+        "business"
+      ],
+      "model": "",
+      "review": "needed",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "Payments and billing. Use test keys only until you decide otherwise (rule 2).",
+      "install": {
+        "type": "plugin",
+        "plugin": "stripe",
+        "marketplace": "claude-plugins-official",
+        "source": "auto",
+        "note": "Use test keys only."
+      }
+    },
+    {
+      "id": "vercel",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "coding"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Put a website online, and read its logs. In the Claude connector directory (official). Not connected: connect it only when you want it, and say yes first.",
+      "plans": "free to connect; Vercel has paid plans of its own; nothing is bought without your yes.",
+      "install": {
+        "type": "connector",
+        "directory": "Vercel",
+        "link": "https://claude.ai/directory"
+      }
+    },
+    {
+      "id": "whimsical",
+      "kind": "connector",
+      "state": "listed-not-installed",
+      "source": "directory",
+      "fits": [
+        "design"
+      ],
+      "model": "",
+      "review": "official",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": "",
+      "about": "Draw wireframes and flowcharts. In the Claude connector directory (official). Not connected: connect it only when you want it, and say yes first.",
+      "plans": "free to connect; Whimsical has paid plans of its own; nothing is bought without your yes.",
+      "install": {
+        "type": "connector",
+        "directory": "Whimsical",
+        "link": "https://claude.ai/directory"
+      }
+    },
+    {
+      "id": "rule-1",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "yes check (warns)",
+      "text": "Ask first before anything public, anything that leaves the computer, deleting, overwriting, installing, connecting, or changing these rules.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-10",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "Outside tools are reviewed first.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-11",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "reply check: checkProgressMap (core/gates/gates.mjs)",
+      "text": "Show the progress map (steps in a row with a marker) in every reply that reports progress or asks for a decision.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-12",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "helper model check (refuses)",
+      "text": "The strongest model plans and reviews; the smallest model that does the job well does the rest.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-13",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "scout demanded before design (refuses)",
+      "text": "Precedents first.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-14",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "helper skills check (refuses); used-line check (warns)",
+      "text": "Use everything that fits.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-15",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "ends check (system/ends-check.mjs)",
+      "text": "Keep every end in step.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-2",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "yes check, paid tools (warns)",
+      "text": "Money is yours.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-3",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "Research and planning need no yes.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-4",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "design check (refuses); stage check (warns)",
+      "text": "Understand first.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-5",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "done-without-proof check (warns)",
+      "text": "Small steps, with proof.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-6",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "reply check (refuses: length, file names, code)",
+      "text": "Claude speaks to you in plain, simple language, always, the way one talks to a friend: whole sentences that explain why, no labels, no inside words.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-7",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "front door (refuses); correction and preference checks (warn)",
+      "text": "Never ask twice.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-8",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "ends check: old phrases, notes that disagree",
+      "text": "Stale is dangerous.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "rule-9",
+      "kind": "protocol",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": "privacy check at every save (core/guard/privacy-guard.mjs)",
+      "text": "No secrets in notes.",
+      "added": "2026-11-18",
+      "by": "starting set",
+      "reason": ""
+    },
+    {
+      "id": "ask-first-public-paid",
+      "kind": "preference",
+      "state": "active",
+      "source": "",
+      "fits": [],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Ask me first before anything public, anything that leaves this computer, or anything that costs money.",
+      "added": "2026-11-18",
+      "by": "default suggested at setup; the person confirms",
+      "reason": ""
+    },
+    {
+      "id": "explain-then-try",
+      "kind": "preference",
+      "state": "listed-not-installed",
+      "fits": [],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Explain a new idea first, then let me try it myself.",
+      "added": "2026-11-19",
+      "by": "student starting set",
+      "reason": ""
+    },
+    {
+      "id": "plain-speech",
+      "kind": "preference",
+      "state": "active",
+      "source": "",
+      "fits": [],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Speak plainly: everyday words, short sentences, no jargon.",
+      "added": "2026-11-18",
+      "by": "default suggested at setup; the person confirms",
+      "reason": ""
+    },
+    {
+      "id": "short-reports",
+      "kind": "preference",
+      "state": "active",
+      "source": "",
+      "fits": [],
+      "model": "",
+      "review": "",
+      "enforce": null,
+      "text": "Keep reports short: what is done, what I must do, and the one question.",
+      "added": "2026-11-18",
+      "by": "default suggested at setup; the person confirms",
+      "reason": ""
+    },
+    {
+      "id": "builder",
+      "kind": "set",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "For code and websites: review, debugging, tests, documents, design and release checks.",
+      "members": [
+        "engineering:code-review",
+        "engineering:debug",
+        "engineering:testing-strategy",
+        "engineering:documentation",
+        "engineering:system-design",
+        "engineering:deploy-checklist",
+        "security-review",
+        "simplify",
+        "run",
+        "github",
+        "playwright",
+        "vercel"
+      ],
+      "standard": [
+        "engineering:code-review",
+        "engineering:debug",
+        "engineering:testing-strategy",
+        "engineering:documentation",
+        "security-review",
+        "simplify",
+        "run",
+        "github"
+      ],
+      "light": [
+        "engineering:code-review",
+        "security-review",
+        "simplify",
+        "run"
+      ]
+    },
+    {
+      "id": "designer",
+      "kind": "set",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "For screens, brands and drawings.",
+      "members": [
+        "anthropic-skills:docs",
+        "simplify",
+        "canva",
+        "figma",
+        "whimsical",
+        "playwright"
+      ],
+      "after": [
+        "Before any screen is built, Claude asks for your design direction note and your taste notes in the me folder. Say what you like and Claude writes your first taste note."
+      ],
+      "standard": [
+        "anthropic-skills:docs",
+        "simplify",
+        "canva",
+        "figma",
+        "playwright"
+      ],
+      "light": [
+        "anthropic-skills:docs",
+        "simplify",
+        "figma"
+      ]
+    },
+    {
+      "id": "everyday",
+      "kind": "set",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "For anyone: tasks, notes, documents, and your calendar, mail and files.",
+      "members": [
+        "productivity:task-management",
+        "productivity:memory-management",
+        "anthropic-skills:docs",
+        "anthropic-skills:pdf",
+        "anthropic-skills:morning",
+        "simplify",
+        "calendar",
+        "gmail",
+        "drive"
+      ],
+      "default": true,
+      "standard": [
+        "productivity:task-management",
+        "productivity:memory-management",
+        "anthropic-skills:docs",
+        "anthropic-skills:pdf",
+        "simplify",
+        "calendar",
+        "gmail"
+      ],
+      "light": [
+        "productivity:task-management",
+        "anthropic-skills:docs",
+        "simplify",
+        "calendar"
+      ]
+    },
+    {
+      "id": "small-business",
+      "kind": "set",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "For a shop or a one-person company: sheets, documents, slides, research, numbers, mail and calendar (a shop and payments come later, after their safety review).",
+      "members": [
+        "anthropic-skills:xlsx",
+        "anthropic-skills:docx",
+        "anthropic-skills:pptx",
+        "anthropic-skills:deep-research",
+        "data:analyze",
+        "data:build-dashboard",
+        "simplify",
+        "gmail",
+        "calendar"
+      ],
+      "after": [
+        "Money is yours (rule 2): Claude proposes every spend and never pays. Stripe is for test keys only until you say otherwise."
+      ],
+      "standard": [
+        "anthropic-skills:xlsx",
+        "anthropic-skills:docx",
+        "anthropic-skills:pptx",
+        "data:analyze",
+        "simplify",
+        "gmail",
+        "calendar"
+      ],
+      "light": [
+        "anthropic-skills:xlsx",
+        "anthropic-skills:docx",
+        "simplify",
+        "gmail"
+      ]
+    },
+    {
+      "id": "student",
+      "kind": "set",
+      "state": "active",
+      "source": "owner",
+      "fits": [],
+      "model": "",
+      "review": "not-applicable",
+      "enforce": null,
+      "text": "",
+      "added": "2026-11-19",
+      "by": "starting set",
+      "reason": "",
+      "about": "For courses, deadlines and papers: the everyday skills plus research and slides.",
+      "members": [
+        "productivity:task-management",
+        "productivity:memory-management",
+        "anthropic-skills:docs",
+        "anthropic-skills:pdf",
+        "anthropic-skills:morning",
+        "anthropic-skills:deep-research",
+        "anthropic-skills:pptx",
+        "anthropic-skills:docx",
+        "simplify",
+        "drive",
+        "calendar",
+        "explain-then-try"
+      ],
+      "standard": [
+        "productivity:task-management",
+        "anthropic-skills:docs",
+        "anthropic-skills:pdf",
+        "anthropic-skills:pptx",
+        "anthropic-skills:docx",
+        "simplify",
+        "drive",
+        "calendar",
+        "explain-then-try"
+      ],
+      "light": [
+        "productivity:task-management",
+        "anthropic-skills:docs",
+        "simplify",
+        "explain-then-try"
+      ]
+    }
+  ]
+}
